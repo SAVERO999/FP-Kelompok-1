@@ -230,7 +230,7 @@ if selected == "Encyclopedia":
     st.markdown(content, unsafe_allow_html=True)
     st.link_button("Go to video", "https://youtu.be/MUhtAXPvVnE?si=rvYo04B8FCIcPT3I")
     
-if selected == "Input Data":
+if selected == "Data Input":
     st.title('Data & Graphic Input')
     st.header("Data Input")
     st.write(data)
