@@ -146,7 +146,7 @@ Delay3= T5-T3
 Delay4= T5-T4
 Delay5= T5-T5
 
-ecg=y
+ecg=elapsed_time
 
 min_n = 0 * fs
 max_n = 4 * fs 
