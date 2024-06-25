@@ -56,16 +56,126 @@ def upload_and_process_file():
         fig_zoomed.update_layout(
             height=500,
             width=1500,
-            title="Plot Data ECG (a) - First 1000 Samples",
+            title="Plot Data ECG (a) ",
             xaxis_title="Elapsed Time (s)",
             yaxis_title="Amplitude",
         )
         st.plotly_chart(fig_zoomed)
+        fs=int(round(1/(data.iloc[1,2]-data.iloc[0,2])))
+        st.write(fs)
+        jumlahdata = int(np.size(x))
+        st.write(jumlahdata)
         
-        st.write('## Data Preview')
-        st.write(df.head())
+
     else:
         st.write('Please upload an ECG data file to get started.')
+
+def dirac(x): 
+    if (x == 0) :
+        dirac_delta = 1
+    else:
+        dirac_delta = 0
+    
+    return dirac_delta
+    return result
+
+
+h = []
+g = []
+n_list = []
+
+for n in range(-2, 2):
+    n_list.append(n)
+    temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
+    h.append(temp_h)
+    temp_g = -2 * (dirac(n) - dirac(n+1))
+    g.append(temp_g)
+
+# Hw = []
+# Gw = []
+
+Hw = np.zeros(20000)
+Gw = np.zeros(20000)
+fs=125
+i_list = []
+for i in range (0,fs+1):
+    i_list.append(i)
+    reG = 0
+    imG = 0
+    reH = 0
+    imH = 0
+    for k in range(-2,2):
+      reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+      imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+      reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+      imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+    temp_Hw = np.sqrt((reH**2)+(imH**2))
+    temp_Gw = np.sqrt((reG**2)+(imG**2))
+
+
+    Hw[i] = temp_Hw
+    Gw[i] = temp_Gw
+    
+i_list = i_list[0:round(fs/2)+1]
+
+Q = np.zeros((9, round(fs/2) + 1))
+
+# Generate the i_list and fill Q with the desired values
+i_list = []
+for i in range(0, round(fs/2) + 1):
+    i_list.append(i)
+    Q[1][i] = Gw[i]
+    Q[2][i] = Gw[2*i] * Hw[i]
+    Q[3][i] = Gw[4*i] * Hw[2*i] * Hw[i]
+    Q[4][i] = Gw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[5][i] = Gw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[6][i] = Gw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[7][i] = Gw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[8][i] = Gw[128*i] * Hw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+
+traces = []
+
+T1= round (2**(1-1))-1
+T2 = round(2** (2-1)) - 1
+T3 = round(2** (3-1)) - 1
+T4 = round(2**(4-1)) - 1
+T5 = round(2**(5-1))- 1
+Delay1= T5-T1
+Delay2= T5-T2
+Delay3= T5-T3
+Delay4= T5-T4
+Delay5= T5-T5
+
+ecg=y
+
+min_n = 0 * fs
+max_n = 4 * fs 
+
+
+def process_ecg(min_n, max_n, ecg, g, h):
+    w2fm = np.zeros((5, max_n - min_n + 1))
+    s2fm = np.zeros((5, max_n - min_n + 1))
+
+    for n in range(min_n, max_n + 1):
+        for j in range(1, 6):
+            w2fm[j-1, n - min_n] = 0
+            s2fm[j-1, n - min_n] = 0
+            for k in range(-1, 3):
+                index = round(n - 2**(j-1) * k)
+                if 0 <= index < len(ecg):  # Ensure the index is within bounds
+                    w2fm[j-1, n - min_n] += g[k+1] * ecg[index]  # g[k+1] to match Pascal's array index starting from -1
+                    s2fm[j-1, n - min_n] += h[k+1] * ecg[index]  # h[k+1] to match Pascal's array index starting from -1
+
+    return w2fm, s2fm
+
+# Compute w2fm and s2fm
+w2fm, s2fm = process_ecg(min_n, max_n, ecg, g, h)
+
+# Prepare data for plotting
+n_values = np.arange(min_n, max_n + 1)
+w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[5,n] in original code (0-based index)
+s2fm_values = [s2fm[i, :] for i in range(5)]  
+
 
 # Streamlit app
 with st.sidebar:
