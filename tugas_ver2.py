@@ -49,7 +49,21 @@ def upload_and_process_file():
             yaxis_title="Amplitude",
         )
         st.plotly_chart(fig)
-
+        
+        # Additional Plot for the first 1000 samples
+        fig_zoomed = go.Figure()
+        fig_zoomed.add_trace(go.Scatter(x=elapsed_time[:1000], y=y[:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
+        fig_zoomed.update_layout(
+            height=500,
+            width=1500,
+            title="Plot Data ECG (a) - First 1000 Samples",
+            xaxis_title="Elapsed Time (s)",
+            yaxis_title="Amplitude",
+        )
+        st.plotly_chart(fig_zoomed)
+        
+        st.write('## Data Preview')
+        st.write(df.head())
     else:
         st.write('Please upload an ECG data file to get started.')
 
@@ -93,17 +107,6 @@ if selected == "Encyclopedia":
 
 if selected == "Input Data":
     upload_and_process_file()
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
-    fig.update_layout(
-        height=500,
-        width=1500,
-        title="Plot Data ECG (a)",
-        xaxis_title="Elapsed Time",
-        yaxis_title="Nilai",
-    
-    )
-    st.plotly_chart(fig)
 
 if selected == "DWT":
     st.write("DWT functionality to be implemented here.")
