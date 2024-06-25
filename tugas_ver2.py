@@ -24,7 +24,7 @@ elapsed_time = sample_interval * (1/125)
 # Center the ECG signal by subtracting the mean
 y = ecg_signal/1e8
 
-fs=int(round(1/(data.iloc[1,2]-data.iloc[0,2])))
+fs=125
 jumlahdata = int(np.size(x))
 
 def dirac(x):
