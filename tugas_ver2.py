@@ -61,24 +61,23 @@ def upload_and_process_file():
             yaxis_title="Amplitude",
         )
         st.plotly_chart(fig_zoomed)
-        fs=int(round(1/(data.iloc[1,2]-data.iloc[0,2])))
+        fs = 125
         st.write(fs)
-        jumlahdata = int(np.size(x))
+        jumlahdata = int(np.size(y))
         st.write(jumlahdata)
         
-
+        return elapsed_time, y
     else:
         st.write('Please upload an ECG data file to get started.')
+        return None, None
 
 def dirac(x): 
-    if (x == 0) :
+    if x == 0:
         dirac_delta = 1
     else:
         dirac_delta = 0
     
     return dirac_delta
-    return result
-
 
 h = []
 g = []
@@ -91,28 +90,23 @@ for n in range(-2, 2):
     temp_g = -2 * (dirac(n) - dirac(n+1))
     g.append(temp_g)
 
-# Hw = []
-# Gw = []
-
 Hw = np.zeros(20000)
 Gw = np.zeros(20000)
-fs=125
+fs = 125
 i_list = []
-for i in range (0,fs+1):
+for i in range(fs + 1):
     i_list.append(i)
     reG = 0
     imG = 0
     reH = 0
     imH = 0
-    for k in range(-2,2):
-      reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-      imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-      reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-      imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-    temp_Hw = np.sqrt((reH**2)+(imH**2))
-    temp_Gw = np.sqrt((reG**2)+(imG**2))
-
-
+    for k in range(-2, 2):
+        reG = reG + g[k+abs(-2)] * np.cos(k*2*np.pi*i/fs)
+        imG = imG - g[k+abs(-2)] * np.sin(k*2*np.pi*i/fs)
+        reH = reH + h[k+abs(-2)] * np.cos(k*2*np.pi*i/fs)
+        imH = imH - h[k+abs(-2)] * np.sin(k*2*np.pi*i/fs)
+    temp_Hw = np.sqrt((reH**2) + (imH**2))
+    temp_Gw = np.sqrt((reG**2) + (imG**2))
     Hw[i] = temp_Hw
     Gw[i] = temp_Gw
     
@@ -120,9 +114,7 @@ i_list = i_list[0:round(fs/2)+1]
 
 Q = np.zeros((9, round(fs/2) + 1))
 
-# Generate the i_list and fill Q with the desired values
-i_list = []
-for i in range(0, round(fs/2) + 1):
+for i in range(round(fs/2) + 1):
     i_list.append(i)
     Q[1][i] = Gw[i]
     Q[2][i] = Gw[2*i] * Hw[i]
@@ -133,24 +125,16 @@ for i in range(0, round(fs/2) + 1):
     Q[7][i] = Gw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
     Q[8][i] = Gw[128*i] * Hw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
 
-traces = []
-
-T1= round (2**(1-1))-1
-T2 = round(2** (2-1)) - 1
-T3 = round(2** (3-1)) - 1
-T4 = round(2**(4-1)) - 1
-T5 = round(2**(5-1))- 1
-Delay1= T5-T1
-Delay2= T5-T2
-Delay3= T5-T3
-Delay4= T5-T4
-Delay5= T5-T5
-
-ecg=elapsed_time
-
-min_n = 0 * fs
-max_n = 4 * fs 
-
+T1 = round(2**(1-1))-1
+T2 = round(2**(2-1))-1
+T3 = round(2**(3-1))-1
+T4 = round(2**(4-1))-1
+T5 = round(2**(5-1))-1
+Delay1 = T5-T1
+Delay2 = T5-T2
+Delay3 = T5-T3
+Delay4 = T5-T4
+Delay5 = T5-T5
 
 def process_ecg(min_n, max_n, ecg, g, h):
     w2fm = np.zeros((5, max_n - min_n + 1))
@@ -162,20 +146,11 @@ def process_ecg(min_n, max_n, ecg, g, h):
             s2fm[j-1, n - min_n] = 0
             for k in range(-1, 3):
                 index = round(n - 2**(j-1) * k)
-                if 0 <= index < len(ecg):  # Ensure the index is within bounds
-                    w2fm[j-1, n - min_n] += g[k+1] * ecg[index]  # g[k+1] to match Pascal's array index starting from -1
-                    s2fm[j-1, n - min_n] += h[k+1] * ecg[index]  # h[k+1] to match Pascal's array index starting from -1
+                if 0 <= index < len(ecg):
+                    w2fm[j-1, n - min_n] += g[k+1] * ecg[index]
+                    s2fm[j-1, n - min_n] += h[k+1] * ecg[index]
 
     return w2fm, s2fm
-
-# Compute w2fm and s2fm
-w2fm, s2fm = process_ecg(min_n, max_n, ecg, g, h)
-
-# Prepare data for plotting
-n_values = np.arange(min_n, max_n + 1)
-w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[5,n] in original code (0-based index)
-s2fm_values = [s2fm[i, :] for i in range(5)]  
-
 
 # Streamlit app
 with st.sidebar:
@@ -195,9 +170,7 @@ if selected == "Home":
     st_lottie("https://lottie.host/50914bbf-8aa3-4ac1-8ab7-d7d7882d51d5/QVzC4aV82R.json", height=400, width=400)
 
 if selected == "Encyclopedia":
-    # Main title
     st.markdown("<h1 style='text-align: center; color: red;'>🫀ENCYCLOPEDIA</h1>", unsafe_allow_html=True)
-    # Subtitle
     new_title = '<p style="font-family:Georgia; color:blue; font-size: 23px; text-align: left;">1. Apa yang dimaksud HRV?</p>'
     st.markdown(new_title, unsafe_allow_html=True)
     new_title = '<p style="font-family:Georgia; color:black; font-size: 20px; text-align: justify;">HRV secara sederhana adalah ukuran variasi waktu antara setiap detak jantung. Variasi ini dikendalikan oleh bagian primitif dari sistem saraf yang disebut sistem saraf otonom (ANS). Sistem ini bekerja di belakang layar, secara otomatis mengatur detak jantung, tekanan darah, pernapasan, dan pencernaan di antara tugas-tugas utama lainnya. ANS dibagi lagi menjadi dua komponen besar: sistem saraf simpatis dan parasimpatis, yang juga dikenal sebagai mekanisme fight-or-flight dan respons relaksasi.</p>'
@@ -206,17 +179,14 @@ if selected == "Encyclopedia":
     st.markdown(new_title, unsafe_allow_html=True)
     new_title = '<p style="font-family:Georgia; color:black; font-size: 20px; text-align: justify;">Jantung Anda berdetak dengan kecepatan tertentu setiap saat. Denyut tersebut berubah tergantung pada apa yang sedang Anda lakukan saat itu. Denyut jantung yang lebih lambat terjadi ketika Anda sedang beristirahat atau santai, dan denyut yang lebih cepat terjadi ketika Anda sedang aktif, stres, atau ketika Anda dalam bahaya. Terdapat variabilitas dalam detak jantung Anda berdasarkan kebutuhan tubuh dan pola pernapasan Anda. Obat-obatan tertentu dan perangkat medis - seperti alat pacu jantung - juga dapat memengaruhi variabilitas detak jantung Anda. Variabilitas detak jantung Anda juga cenderung menurun secara normal seiring bertambahnya usia.</p>'
     st.markdown(new_title, unsafe_allow_html=True)
-    # HTML content with the new YouTube video embedded
     content = """
     <iframe id='Video 1' width='560' height='315' src='https://www.youtube.com/embed/MUhtAXPvVnE' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
     """
-
-    # Display the HTML content
     st.markdown(content, unsafe_allow_html=True)
     st.link_button("Go to video", "https://youtu.be/MUhtAXPvVnE?si=rvYo04B8FCIcPT3I")
 
 if selected == "Input Data":
-    upload_and_process_file()
+    elapsed_time, y = upload_and_process_file()
 
 if selected == "DWT":
     st.write("DWT functionality to be implemented here.")
