@@ -443,21 +443,21 @@ if selected == "DWT":
                     figs = []
                     n = np.arange(1000)
             
-                for i in range(1, 6):
-                    fig = go.Figure()
-                    fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Orde {i}'))
-                    fig.update_layout(
-                        title=f'Plot Orde {i}',
-                        xaxis_title='elapsed_time',
-                        yaxis_title='Nilai',
-                        template='plotly_dark',
-                        height=400,
-                        width=1500,
-                    )
-                    figs.append(fig)
-                
-                for fig in figs:
-                    st.plotly_chart(fig)
+                    for i in range(1, 6):
+                        fig = go.Figure()
+                        fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Orde {i}'))
+                        fig.update_layout(
+                            title=f'Plot Orde {i}',
+                            xaxis_title='elapsed_time',
+                            yaxis_title='Nilai',
+                            template='plotly_dark',
+                            height=400,
+                            width=1500,
+                        )
+                        figs.append(fig)
+                    
+                    for fig in figs:
+                        st.plotly_chart(fig)
 
 
 
