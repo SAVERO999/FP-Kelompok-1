@@ -94,26 +94,27 @@ for n in range(-2, 2):
     temp_g = -2 * (dirac(n) - dirac(n+1))
     g.append(temp_g)
 
+# Hw = []
+# Gw = []
+
 Hw = np.zeros(20000)
 Gw = np.zeros(20000)
-fs = 125
 i_list = []
-for i in range(fs + 1):
+for i in range (0,fs+1):
     i_list.append(i)
     reG = 0
     imG = 0
     reH = 0
     imH = 0
-    for k in range(-2, 2):
-        reG = reG + g[k+abs(-2)] * np.cos(k*2*np.pi*i/fs)
-        imG = imG - g[k+abs(-2)] * np.sin(k*2*np.pi*i/fs)
-        reH = reH + h[k+abs(-2)] * np.cos(k*2*np.pi*i/fs)
-        imH = imH - h[k+abs(-2)] * np.sin(k*2*np.pi*i/fs)
-    temp_Hw = np.sqrt((reH**2) + (imH**2))
-    temp_Gw = np.sqrt((reG**2) + (imG**2))
+    for k in range(-2,2):
+      reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+      imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+      reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+      imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+    temp_Hw = np.sqrt((reH**2)+(imH**2))
+    temp_Gw = np.sqrt((reG**2)+(imG**2))
     Hw[i] = temp_Hw
     Gw[i] = temp_Gw
-    
 i_list = i_list[0:round(fs/2)+1]
 
 Q = np.zeros((9, round(fs/2) + 1))
