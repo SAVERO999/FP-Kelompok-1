@@ -443,7 +443,7 @@ if selected == "DWT":
                     figs = []
                     n = np.arange(1000)
             
-                    for i in range(1, 6):
+                for i in range(1, 6):
                         fig = go.Figure()
                         fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Orde {i}'))
                         fig.update_layout(
