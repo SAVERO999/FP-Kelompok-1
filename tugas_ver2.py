@@ -233,7 +233,7 @@ if selected == "Encyclopedia":
 if selected == "Data Input":
     st.title('Data & Graphic Input')
     st.header("Data Input")
-    st.write(elapsed_time)
+    st.write(df)
 
     # Create the figure with Plotly
     fig = go.Figure(data=go.Scatter(x=elapsed_time, y=y, mode='lines'))
