@@ -25,7 +25,7 @@ elapsed_time = sample_interval * (1/125)
 y = ecg_signal/1e8
 
 fs=125
-jumlahdata = int(np.size(x))
+jumlahdata = int(np.size(elapsed_time ))
 
 def dirac(x):
     if x == 0:
