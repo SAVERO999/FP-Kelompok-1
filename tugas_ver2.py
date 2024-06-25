@@ -1,11 +1,13 @@
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import plotly.graph_objs as go
+from streamlit_option_menu import option_menu
 import math
-import streamlit as st
+import streamlit as st 
+from streamlit_lottie import st_lottie
+from st_click_detector import click_detector
+import plotly.express as px
 
 def load_data(file):
     df = pd.read_csv(file, sep='\s+', header=None)
