@@ -99,6 +99,7 @@ for n in range(-2, 2):
 
 Hw = np.zeros(20000)
 Gw = np.zeros(20000)
+fs=125
 i_list = []
 for i in range (0,fs+1):
     i_list.append(i)
