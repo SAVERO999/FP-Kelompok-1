@@ -34,8 +34,6 @@ uploaded_file = st.file_uploader('Upload your ECG data file', type=['txt', 'csv'
 if uploaded_file is not None:
     df = load_data(uploaded_file)
     elapsed_time, y = process_ecg_signal(df)
-
-    st.write('## Processed ECG Signal')
     
     # Plot using Plotly
     fig = go.Figure()
