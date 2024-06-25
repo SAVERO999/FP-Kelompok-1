@@ -61,8 +61,12 @@ def upload_and_process_file():
             yaxis_title="Amplitude",
         )
         st.plotly_chart(fig_zoomed)
+        new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai FS</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
         fs = 125
         st.write(fs)
+        new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Jumlah Semua Data</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
         jumlahdata = int(np.size(y))
         st.write(jumlahdata)
         
