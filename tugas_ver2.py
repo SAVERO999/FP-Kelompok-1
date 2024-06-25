@@ -198,7 +198,7 @@ if selected == "DWT":
         ["Filter Coef", "Mallat", "Filter Bank "],
         index=0
     )
-        if sub_selected1 == 'Filter Coef':
+    if sub_selected1 == 'Filter Coef':
             optimizer_options4 = [' ', 'h(n)', 'g(n)', 'Hw', 'Gw','Qj(f)']
             selected_optimizer4 = st.selectbox('Penurunan inverse fourier transform', optimizer_options4)
             if selected_optimizer4 == 'h(n)':
@@ -235,7 +235,7 @@ if selected == "DWT":
                 
                 
                  st.plotly_chart(fig)
-        if sub_selected1 == 'Mallat':
+    if sub_selected1 == 'Mallat':
             optimizer_options5 = ['', 'Delay', 'w2fm','s2fm','gabungan']
             selected_optimizer5 = st.selectbox('', optimizer_options5)
             if selected_optimizer5 == 'Delay':
