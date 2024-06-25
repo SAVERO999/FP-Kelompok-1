@@ -193,4 +193,154 @@ if selected == "Input Data":
     elapsed_time, y = upload_and_process_file()
 
 if selected == "DWT":
-    st.write("DWT functionality to be implemented here.")
+    sub_selected1 = st.sidebar.radio(
+        "",
+        ["Filter Coef", "Mallat", "Filter Bank "],
+        index=0
+    )
+        if sub_selected1 == 'Filter Coef':
+            optimizer_options4 = [' ', 'h(n)', 'g(n)', 'Hw', 'Gw','Qj(f)']
+            selected_optimizer4 = st.selectbox('Penurunan inverse fourier transform', optimizer_options4)
+            if selected_optimizer4 == 'h(n)':
+                fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
+                fig.update_layout(title='h(n) Plot', xaxis_title='n', yaxis_title='g(n)',template='plotly_dark')
+                st.plotly_chart(fig)
+            if selected_optimizer4 == 'g(n)':
+                fig = go.Figure(data=[go.Bar(x=n_list, y=g)])
+                fig.update_layout(title='g(n) Plot', xaxis_title='n', yaxis_title='g(n)',template='plotly_dark')
+                st.plotly_chart(fig)
+            if selected_optimizer4 == 'Hw':
+                fig = go.Figure(data=go.Scatter(x=i_list, y=Hw[:len(i_list)]))
+                fig.update_layout(title='Hw Plot', xaxis_title='i', yaxis_title='Gw',template='plotly_dark')
+                st.plotly_chart(fig)
+            if selected_optimizer4 == 'Gw':
+                fig = go.Figure(data=go.Scatter(x=i_list, y=Gw[:len(i_list)]))
+                fig.update_layout(title='Gw Plot', xaxis_title='i', yaxis_title='Gw',template='plotly_dark')
+                st.plotly_chart(fig)
+            if selected_optimizer4 == 'Qj(f)':
+                traces = []
+                for i in range(1, 9):
+                 trace = go.Scatter(x=i_list, y=Q[i], mode='lines', name=f'Q[{i}]')
+                 traces.append(trace)
+                
+                
+                 layout = go.Layout(title='Qj (f)',
+                                   xaxis=dict(title=''),
+                                   yaxis=dict(title=''),
+                                   template='plotly_dark'
+                )
+                
+                
+                 fig = go.Figure(data=traces, layout=layout)
+                
+                
+                 st.plotly_chart(fig)
+        if sub_selected1 == 'Mallat':
+            optimizer_options5 = ['', 'Delay', 'w2fm','s2fm','gabungan']
+            selected_optimizer5 = st.selectbox('', optimizer_options5)
+            if selected_optimizer5 == 'Delay':
+                data = {
+                    "": ["T1", "T2", "T3","T4","T5"],
+                    "Hasil": [T1, T2, T3,T4,T5]
+                }
+                df = pd.DataFrame(data)
+                
+                # Buat tabel menggunakan Plotly
+                fig = go.Figure(data=[go.Table(
+                    columnwidth=[80, 20],  # Set column width
+                    header=dict(values=list(df.columns),
+                                fill_color='red',  # Ubah warna header menjadi merah
+                                align='left',
+                                line_color='darkslategray',
+                                height=30),  # Set header height
+                    cells=dict(values=[df[""], df["Hasil"]],
+                               fill_color='white',  # Ubah warna sel menjadi merah
+                               align='left',
+                               line_color='darkslategray',
+                               height=25,  # Set cell height
+                               font_size=12,  # Set font size
+                               ),
+                )])
+                
+                # Set layout to adjust the table size
+                fig.update_layout(
+                    width=800,
+                    height=200,
+                    margin=dict(l=10, r=10, t=10, b=10)
+                )
+                
+                # Tampilkan tabel
+                st.plotly_chart(fig)
+                
+                data = {
+                    "": ["Delay1","Delay2","Delay3","Delay4","Delay5"],
+                    "Hasil": [Delay1,Delay2,Delay3,Delay4,Delay5]
+                }
+                df = pd.DataFrame(data)
+                
+                # Buat tabel menggunakan Plotly
+                fig = go.Figure(data=[go.Table(
+                    columnwidth=[80, 20],  # Set column width
+                    header=dict(values=list(df.columns),
+                                fill_color='red',  # Ubah warna header menjadi merah
+                                align='left',
+                                line_color='darkslategray',
+                                height=30),  # Set header height
+                    cells=dict(values=[df[""], df["Hasil"]],
+                               fill_color='white',  # Ubah warna sel menjadi merah
+                               align='left',
+                               line_color='darkslategray',
+                               height=25,  # Set cell height
+                               font_size=12,  # Set font size
+                               ),
+                )])
+                
+                # Set layout to adjust the table size
+                fig.update_layout(
+                    width=800,
+                    height=200,
+                    margin=dict(l=10, r=10, t=10, b=10)
+                )
+                
+                # Tampilkan tabel
+                st.plotly_chart(fig)
+            
+            if selected_optimizer5 == 'w2fm':
+                # Function to create and display a plot for a given series
+                def create_plot(n_values, series, index, series_name):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=series, mode='lines', name=f'{series_name}[{index+1},n]'))
+                    fig.update_layout(
+                        title=f'{series_name}({index+1})f'
+                    )
+                    st.plotly_chart(fig)
+                
+                # Create and show separate plots for each w2fm series
+                for i in range(5):
+                    create_plot(n_values, w2fm_values[i], i, 'w2fm')
+                    
+            if selected_optimizer5 == 's2fm':
+                # Function to create and display a plot for a given series
+                def create_plot(n_values, series, index, series_name):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=series, mode='lines', name=f'{series_name}[{index+1},n]'))
+                    fig.update_layout(
+                        title=f'{series_name}({index+1})f'
+                    )
+                    st.plotly_chart(fig)
+                
+                # Create and show separate plots for each w2fm series
+                for i in range(5):
+                    create_plot(n_values, s2fm_values[i], i, 's2fm')
+            if selected_optimizer5 == 'gabungan':
+                n_values = np.arange(min_n, max_n + 1)
+                for i in range(0, 5):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=w2fm[i], mode='lines', name=f'w2fm {i+1}'))
+                    fig.add_trace(go.Scatter(x=n_values, y=s2fm[i], mode='lines', name=f's2fm {i+1}'))
+                    fig.update_layout(
+                        title=f'w2fm and s2fm ({i+1})f',
+                        template='plotly_dark'
+                    )
+                    st.plotly_chart(fig)
+
