@@ -50,8 +50,6 @@ def upload_and_process_file():
         )
         st.plotly_chart(fig)
 
-        st.write('## Data Preview')
-        st.write(df.head())
     else:
         st.write('Please upload an ECG data file to get started.')
 
@@ -95,6 +93,17 @@ if selected == "Encyclopedia":
 
 if selected == "Input Data":
     upload_and_process_file()
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
+    fig.update_layout(
+        height=500,
+        width=1500,
+        title="Plot Data ECG (a)",
+        xaxis_title="Elapsed Time",
+        yaxis_title="Nilai",
+    
+    )
+    st.plotly_chart(fig)
 
 if selected == "DWT":
     st.write("DWT functionality to be implemented here.")
