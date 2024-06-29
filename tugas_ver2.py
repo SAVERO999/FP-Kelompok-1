@@ -442,6 +442,12 @@ if selected == "DWT":
                     )
                     st.plotly_chart(fig)
         if sub_selected1 == 'Filter Bank':
+                # Streamlit app
+                st.title('Streamlit Plotly Plots')
+                
+                figs = []
+                
+                # Generate figures
                 for i in range(1, 6):
                     fig = go.Figure()
                     fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Orde {i}'))
@@ -455,9 +461,9 @@ if selected == "DWT":
                     )
                     figs.append(fig)
                 
+                # Display figures in Streamlit
                 for fig in figs:
-                    st.plotly_chart(fig)
-
+                    st.plotly_chart(fig, use_container_width=True)
 
 
         
