@@ -358,7 +358,7 @@ if selected == "DWT":
                 
                 data = {
                     "": ["Delay1","Delay2","Delay3","Delay4","Delay5"],
-                   "Hasil": [Delay1,Delay2,Delay3,Delay4,Delay5]
+                    "Hasil": [Delay1,Delay2,Delay3,Delay4,Delay5]
                 }
                 df = pd.DataFrame(data)
                 
@@ -366,12 +366,12 @@ if selected == "DWT":
                 fig = go.Figure(data=[go.Table(
                     columnwidth=[80, 20],  # Set column width
                     header=dict(values=list(df.columns),
-                                fill_color='blue',  # Ubah warna header menjadi biru
+                                fill_color='red',  # Ubah warna header menjadi merah
                                 align='left',
                                 line_color='darkslategray',
                                 height=30),  # Set header height
                     cells=dict(values=[df[""], df["Hasil"]],
-                               fill_color='white',  # Ubah warna sel menjadi putih
+                               fill_color='white',  # Ubah warna sel menjadi merah
                                align='left',
                                line_color='darkslategray',
                                height=25,  # Set cell height
@@ -388,96 +388,65 @@ if selected == "DWT":
                 
                 # Tampilkan tabel
                 st.plotly_chart(fig)
+            
             if selected_optimizer5 == 'w2fm':
-                traces = []
+                # Function to create and display a plot for a given series
+                def create_plot(n_values, series, index, series_name):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=series, mode='lines', name=f'{series_name}[{index+1},n]'))
+                    fig.update_layout(
+                        title=f'{series_name}({index+1})f'
+                    )
+                    st.plotly_chart(fig)
+                
+                # Create and show separate plots for each w2fm series
                 for i in range(5):
-                    trace = go.Scatter(x=n_values, y=w2fm_values[i], mode='lines', name=f'w2fm[{i+1}]')
-                    traces.append(trace)
-                
-                layout = go.Layout(title='w2fm Plot',
-                                   xaxis=dict(title='n'),
-                                   yaxis=dict(title='w2fm'),
-                                   template='plotly_dark')
-                
-                fig = go.Figure(data=traces, layout=layout)
-                
-                st.plotly_chart(fig)
+                    create_plot(n_values, w2fm_values[i], i, 'w2fm')
+                    
             if selected_optimizer5 == 's2fm':
-                traces = []
+                # Function to create and display a plot for a given series
+                def create_plot(n_values, series, index, series_name):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=series, mode='lines', name=f'{series_name}[{index+1},n]'))
+                    fig.update_layout(
+                        title=f'{series_name}({index+1})f'
+                    )
+                    st.plotly_chart(fig)
+                
+                # Create and show separate plots for each w2fm series
                 for i in range(5):
-                    trace = go.Scatter(x=n_values, y=s2fm_values[i], mode='lines', name=f's2fm[{i+1}]')
-                    traces.append(trace)
-                
-                layout = go.Layout(title='s2fm Plot',
-                                   xaxis=dict(title='n'),
-                                   yaxis=dict(title='s2fm'),
-                                   template='plotly_dark')
-                
-                fig = go.Figure(data=traces, layout=layout)
-                
-                st.plotly_chart(fig)
+                    create_plot(n_values, s2fm_values[i], i, 's2fm')
             if selected_optimizer5 == 'gabungan':
-                traces = []
-                for i in range(5):
-                    trace_w = go.Scatter(x=n_values, y=w2fm_values[i], mode='lines', name=f'w2fm[{i+1}]')
-                    trace_s = go.Scatter(x=n_values, y=s2fm_values[i], mode='lines', name=f's2fm[{i+1}]')
-                    traces.extend([trace_w, trace_s])
-                
-                layout = go.Layout(title='w2fm and s2fm Combined Plot',
-                                   xaxis=dict(title='n'),
-                                   yaxis=dict(title='Amplitude'),
-                                   template='plotly_dark')
-                
-                fig = go.Figure(data=traces, layout=layout)
-                
-                st.plotly_chart(fig)
-
+                n_values = np.arange(min_n, max_n + 1)
+                for i in range(0, 5):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n_values, y=w2fm[i], mode='lines', name=f'w2fm {i+1}'))
+                    fig.add_trace(go.Scatter(x=n_values, y=s2fm[i], mode='lines', name=f's2fm {i+1}'))
+                    fig.update_layout(
+                        title=f'w2fm and s2fm ({i+1})f',
+                        template='plotly_dark'
+                    )
+                    st.plotly_chart(fig)
         if sub_selected1 == 'Filter Bank':
-            st.header("Filter Bank")
-            st.write("Plotting the filter bank results is not implemented yet.")
-
-
-        
-
-
-    
-    
-
-
-
-        
-    
-
-
-
-
-
-
- 
-
-
-        
-        
-
-
-
-
-
-
-        
-
-
-
-
-
-        
-        
-    
-
-
-
-
-    
-
-
-         
+                # Streamlit app
+                st.title('Streamlit Plotly Plots')
+                
+                figs = []
+                
+                # Generate figures
+                for i in range(1, 6):
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Orde {i}'))
+                    fig.update_layout(
+                        title=f'Plot Orde {i}',
+                        xaxis_title='elapsed_time',
+                        yaxis_title='Nilai',
+                        template='plotly_dark',
+                        height=400,
+                        width=1500,
+                    )
+                    figs.append(fig)
+                
+                # Display figures in Streamlit
+                for fig in figs:
+                    st.plotly_chart(fig, use_container_width=True)
