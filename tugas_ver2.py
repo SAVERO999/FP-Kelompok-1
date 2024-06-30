@@ -69,6 +69,6 @@ if selected == "Signal Processing":
         yaxis_title="Nilai",
     
     )
-    fig.show()
+    st.plotly_chart(fig)
 
 
