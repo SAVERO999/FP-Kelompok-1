@@ -81,7 +81,17 @@ traces = []
 
 
 
-qj = np.zeros ((6, 10000))
+qj = np.zeros((6, 10000))
+k_list = []
+j = 1
+
+# Calculations
+a = -(round(2**j) + round(2**(j-1)) - 2)
+b = -(1 - round(2**(j-1))) + 1
+
+for k in range(a, b):
+    k_list.append(k)
+    qj[1][k + abs(a)] = -2 * (dirac(k) - dirac(k+1))
 k_list = []
 j= 2
 a = -(round (2**j) + round (2**(j-1)) - 2 )
@@ -227,19 +237,7 @@ if selected == "DWT":
             fig = go.Figure(data=traces, layout=layout)
             st.plotly_chart(fig)
      if selected_optimizer == 'q1(k)':
-            qj = np.zeros((6, 10000))
-            k_list = []
-            j = 1
-            
-            # Calculations
-            a = -(round(2**j) + round(2**(j-1)) - 2)
-            st.write(f"a = {a}")
-            b = -(1 - round(2**(j-1))) + 1
-            st.write(f"b = {b}")
-            
-            for k in range(a, b):
-                k_list.append(k)
-                qj[1][k + abs(a)] = -2 * (dirac(k) - dirac(k+1))
+
             
             # Visualization using Plotly
             fig = go.Figure(data=[go.Bar(x=k_list, y=qj[1][0:len(k_list)])])
