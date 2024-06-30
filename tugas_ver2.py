@@ -64,8 +64,8 @@ if selected == "Signal Processing":
     fig.update_layout(
         height=500,
         width=1500,
-        title="Plot Data ECG (a)",
-        xaxis_title="Elapsed Time",
+        title="ECG Signal",
+        xaxis_title="Elapsed Time (s)",
         yaxis_title="Nilai",
     
     )
