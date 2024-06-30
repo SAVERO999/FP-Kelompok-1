@@ -353,12 +353,12 @@ if selected == "DWT":
             st.plotly_chart(fig)
         
         # Create and show separate plots for each w2fm series
-        st.header('w2fm Series')
+            st.header('w2fm Series')
         for i in range(5):
             create_plot(n_values, w2fm_values[i], i, 'w2fm')
         
         # Create and show separate plots for each s2fm series
-        st.header('s2fm Series')
+            st.header('s2fm Series')
         for i in range(5):
             create_plot(n_values, s2fm_values[i], i, 's2fm')
    if sub_selected  == 'Filter Bank':
