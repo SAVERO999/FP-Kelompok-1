@@ -913,7 +913,30 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_fft)
+        if selected == "Spektrum":
+                min_length = min(len(fft_result) for fft_result in fft_results_dict.values())
+
+                # Truncate all FFT results to the minimum length
+                for key in fft_results_dict:
+                    fft_results_dict[key] = fft_results_dict[key][:min_length]
                 
+                # Average the FFT results
+                FFT_TOTAL = sum(fft_results_dict[key] for key in fft_results_dict) / len(fft_results_dict)
+                fft_freq_half = fft_freq_half[:min_length]  # Truncate frequency array to match
+                
+                # Plot the averaged FFT result
+                fig_avg = go.Figure()
+                fig_avg.add_trace(
+                    go.Scatter(x=fft_freq_half, y=np.abs(FFT_TOTAL), mode="lines", line=dict(color='black'))
+                )
+                fig_avg.update_layout(
+                    title="Averaged FFT of TACHOGRAM Subsets",
+                    xaxis_title="Frequency (Hz)",
+                    yaxis_title="Magnitude",
+                    showlegend=False
+                )
+                st.plotly_chart(fig_avg)
+
 
 
 
