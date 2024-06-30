@@ -887,7 +887,7 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_orig)
-           if selected_optimizer == 'Windowing':  
+          if selected_optimizer == 'Windowing':  
                    # Plot Tachogram with Hamming Window
                 fig_windowed = go.Figure()
                 fig_windowed.add_trace(
