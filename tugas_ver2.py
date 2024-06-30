@@ -32,7 +32,12 @@ def dirac(x):
 h = []
 g = []
 n_list = []
-
+for n in range(-2, 2):
+    n_list.append(n)
+    temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
+    h.append(temp_h)
+    temp_g = -2 * (dirac(n) - dirac(n+1))
+    g.append(temp_g)
 
 
 
@@ -85,7 +90,7 @@ if selected == "Signal Processing":
 
 if selected == "DWT":
   selected = option_menu(None, ["Filter Coeffs", "Segmentation","Spektrum"], 
-  menu_icon="cast", default_index=0, orientation="horizontal")
+  menu_icon="cast", default_index=0, orientation="vertikal")
     
   if selected == 'Filter Coeffs':
      optimizer_options = ['', 'h(n)', 'Data 50-100', 'Data 101-151', 'Data 151-201','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
