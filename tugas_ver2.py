@@ -39,6 +39,30 @@ for n in range(-2, 2):
     temp_g = -2 * (dirac(n) - dirac(n+1))
     g.append(temp_g)
 
+import numpy as np
+Hw = np.zeros(20000)
+Gw = np.zeros(20000)
+i_list = []
+fs =125
+for i in range(0,fs + 1):
+    i_list.append(i)
+    reG = 0
+    imG = 0
+    reH = 0
+    imH = 0
+    for k in range(-2, 2):
+        reG = reG + g[k + abs(-2)] * np.cos(k * 2 * np.pi * i / fs)
+        imG = imG - g[k + abs(-2)] * np.sin(k * 2 * np.pi * i / fs)
+        reH = reH + h[k + abs(-2)] * np.cos(k * 2 * np.pi * i / fs)
+        imH = imH - h[k + abs(-2)] * np.sin(k * 2 * np.pi * i / fs)
+    temp_Hw = np.sqrt((reH**2) + (imH**2))
+    temp_Gw = np.sqrt((reG**2) + (imG**2))
+    Hw[i] = temp_Hw
+    Gw[i] = temp_Gw
+
+i_list = i_list[0:round(fs/2)+1]
+
+
 
 
 
@@ -106,6 +130,15 @@ if selected == "DWT":
          
         fig = go.Figure(data=[go.Bar(x=n_list, y=g)])
         fig.update_layout(title='g(n) Plot', xaxis_title='n', yaxis_title='g(n)')
+        st.plotly_chart(fig)
+     if selected_optimizer == 'hw & gw':
+        
+        fig = go.Figure(data=go.Scatter(x=i_list, y=Hw[:len(i_list)]))
+        fig.update_layout(title='Hw Plot', xaxis_title='i', yaxis_title='Gw')
+        st.plotly_chart(fig)
+       
+        fig = go.Figure(data=go.Scatter(x=i_list, y=Gw[:len(i_list)]))
+        fig.update_layout(title='Gw Plot', xaxis_title='i', yaxis_title='Gw')
         st.plotly_chart(fig)
 
     
