@@ -81,7 +81,7 @@ traces = []
 
 
 
-
+qj = np.zeros ((6, 10000))
 k_list = []
 j= 2
 a = -(round (2**j) + round (2**(j-1)) - 2 )
@@ -89,6 +89,7 @@ b=-(1- round(2**(j-1)))+1
 for k in range (a,b):
   k_list.append(k)
   qj[2][k+abs(a)] = -1/4* ( dirac(k-1) + 3*dirac(k)  + 2*dirac(k+1)  - 2*dirac(k+2) - 3*dirac(k+3) - dirac(k+4))
+
 
 k_list = []
 j=3
