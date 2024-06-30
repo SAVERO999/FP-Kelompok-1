@@ -223,8 +223,8 @@ with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT","Zeros Crossing"], default_index=0)
 
 if selected == "Home":
-   st.title('Project ASN Kelompok 1')c
-   st.subheader("Anggota kelompok"),"
+   st.title('Project ASN Kelompok 1')
+   st.subheader("Anggota kelompok")
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Farhan Majid Ibrahim - 5023211049</p>'
    st.markdown(new_title, unsafe_allow_html=True)
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Nayla Pramudhita Putri Pertama - 5023211012</p>'
