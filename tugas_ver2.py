@@ -242,7 +242,7 @@ for k in range(delay, N - delay):
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT","Zeros Crossing"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT","Zeros Crossing","QRS Detection"], default_index=0)
 
 if selected == "Home":
    st.title('Project ASN Kelompok 1')
@@ -632,6 +632,19 @@ if selected == "DWT":
         
 if selected == "Zeros Crossing":
     # Plot with Plotly
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=ecg.index[0:1000], y=gradien3[0:1000], mode='lines', name='Gradien 3', line=dict(color='blue')))
+            fig.update_layout(title='Gradien 3', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
+            st.plotly_chart(fig)
+if selected == "QRS Detection":
+            hasil_QRS = np.zeros(len(elapsed_time))
+            T4 = round(2**(4-1)) - 1
+            for i in range(N):
+                if (gradien3[i] > 1.8):
+                    hasil_QRS[i-(T4+1)] = 5
+                else:
+                    hasil_QRS[i-(T4+1)] = 0
+            # Plot with Plotly
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=ecg.index[0:1000], y=gradien3[0:1000], mode='lines', name='Gradien 3', line=dict(color='blue')))
             fig.update_layout(title='Gradien 3', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
