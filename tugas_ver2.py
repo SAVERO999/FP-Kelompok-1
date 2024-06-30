@@ -288,49 +288,7 @@ bpm_rr_baseline = bpm_rr -22
 # Plotting dengan Plotly
 n = np.arange(0, ptp, 1, dtype=int)
 
-def fourier_transform(signal):
-    N = len(signal)
-    fft_result = np.zeros(N, dtype=complex)
-    for k in range(N):
-        for n in range(N):
-            fft_result[k] += signal[n] * np.exp(-2j * np.pi * k * n / N)
-    return fft_result
 
-def calculate_frequency(N, sampling_rate):
-    return np.arange(N) * sampling_rate / N
-
-sampling_rate = 1  # Example sampling rate
-
-fft_results_dict = {}
-
-# Define a list of colors
-colors = ['blue', 'red', 'green', 'purple', 'orange', 'brown', 'pink']
-
-# Loop for 7 subsets
-for i in range(7):
-    start_index = i * 34
-    end_index = start_index + 34
-
-    n_subset = n[start_index:end_index]
-    bpm_rr_baseline_subset = bpm_rr_baseline[start_index:end_index]
-
-    M = len(bpm_rr_baseline_subset) - 1
-
-    hamming_window = np.zeros(M + 1)
-    for j in range(M + 1):
-        hamming_window[j] = 0.54 - 0.46 * np.cos(2 * np.pi * j / M)
-
-    bpm_rr_baseline_windowed = bpm_rr_baseline_subset * hamming_window
-
-    fft_result = fourier_transform(bpm_rr_baseline_windowed)
-    fft_freq = calculate_frequency(len(bpm_rr_baseline_windowed), sampling_rate)
-
-    half_point = len(fft_freq) // 2
-    fft_freq_half = fft_freq[:half_point]
-    fft_result_half = fft_result[:half_point]
-
-    # Store fft_result_half in the dictionary
-    fft_results_dict[f'fft_result{i+1}'] = fft_result_half
 
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Input Data","DWT","Zeros Crossing","QRS Detection","Frekuensi Domain"], default_index=0)
@@ -836,17 +794,17 @@ if selected == "Frekuensi Domain":
             def calculate_frequency(N, sampling_rate):
                 return np.arange(N) * sampling_rate / N
             
-                sampling_rate = 1  # Example sampling rate
+            sampling_rate = 1  # Example sampling rate
             
-                fft_results_dict = {}
+            fft_results_dict = {}
             
             # Define a list of colors
-                colors = ['blue', 'red', 'green', 'purple', 'orange', 'brown', 'pink']
+            colors = ['blue', 'red', 'green', 'purple', 'orange', 'brown', 'pink']
             
             # Loop for 7 subsets
             for i in range(7):
-                start_index = i * 34
-                end_index = start_index + 34
+                start_index = i * 37
+                end_index = start_index + 37
             
                 n_subset = n[start_index:end_index]
                 bpm_rr_baseline_subset = bpm_rr_baseline[start_index:end_index]
@@ -854,8 +812,8 @@ if selected == "Frekuensi Domain":
                 M = len(bpm_rr_baseline_subset) - 1
             
                 hamming_window = np.zeros(M + 1)
-            for j in range(M + 1):
-                hamming_window[j] = 0.54 - 0.46 * np.cos(2 * np.pi * j / M)
+                for j in range(M + 1):
+                    hamming_window[j] = 0.54 - 0.46 * np.cos(2 * np.pi * j / M)
             
                 bpm_rr_baseline_windowed = bpm_rr_baseline_subset * hamming_window
             
@@ -868,44 +826,19 @@ if selected == "Frekuensi Domain":
             
                 # Store fft_result_half in the dictionary
                 fft_results_dict[f'fft_result{i+1}'] = fft_result_half
-                fig = make_subplots(rows=1, cols=3, subplot_titles=(
-                f" TACHOGRAM (Subset {start_index}-{end_index-1})",
-                f"Hamming Window (Subset {start_index}-{end_index-1})",
-                f"FFT  (Subset {start_index}-{end_index-1})"
-                ))
-        
+            
                 # Plot original Tachogram
-                fig.add_trace(
-                    go.Scatter(x=n_subset, y=bpm_rr_baseline_subset, mode='lines', name='Original Signal', line=dict(color=colors[i])),
-                    row=1, col=1
+                fig_orig = go.Figure()
+                fig_orig.add_trace(
+                    go.Scatter(x=n_subset, y=bpm_rr_baseline_subset, mode='lines', name='Original Signal', line=dict(color=colors[i]))
                 )
-            
-                # Plot Tachogram with Hamming Window
-                fig.add_trace(
-                    go.Scatter(x=n_subset, y=bpm_rr_baseline_windowed, mode='lines', name='Windowed Signal', line=dict(color=colors[i])),
-                    row=1, col=2
-                )
-            
-                # Plot FFT
-                fig.add_trace(
-                    go.Scatter(x=fft_freq_half, y=np.abs(fft_result_half), mode="lines", line=dict(color=colors[i])),
-                    row=1, col=3
-                )
-            
-                # Update layout
-                fig.update_layout(
-                    title=f"TACHOGRAM and FFT (Subset {start_index}-{end_index-1})",
+                fig_orig.update_layout(
+                    title=f"Original TACHOGRAM (Subset {start_index}-{end_index-1})",
+                    xaxis_title="n",
+                    yaxis_title="BPM",
                     showlegend=False
                 )
-            
-                fig.update_xaxes(title_text="n", row=1, col=1)
-                fig.update_yaxes(title_text="BPM", row=1, col=1)
-                fig.update_xaxes(title_text="n", row=1, col=2)
-                fig.update_yaxes(title_text="BPM", row=1, col=2)
-                fig.update_xaxes(title_text="Frequency (Hz)", row=1, col=3)
-                fig.update_yaxes(title_text="Magnitude", row=1, col=3)
-            
-                st.plotly_chart(fig)
+                st.plotly_chart(fig_ori)
                 
 
 
