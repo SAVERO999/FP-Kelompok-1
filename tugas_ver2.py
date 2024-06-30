@@ -233,18 +233,8 @@ if selected == "DWT":
             fig = go.Figure(data=traces, layout=layout)
             st.plotly_chart(fig)
      if selected_optimizer == 'q1(k)':
-            # Create the figure
             fig = go.Figure(data=[go.Bar(x=k_list, y=qj[1][0:len(k_list)])])
-            
-            # Update layout with x-axis range
-            fig.update_layout(
-                title='',
-                xaxis_title='',
-                yaxis_title='',
-                xaxis=dict(range=[-40, 4])
-            )
-            
-            # Plot the chart
+            fig.update_layout(title='', xaxis_title='', yaxis_title='')
             st.plotly_chart(fig)
      if selected_optimizer == 'q2(k)':
          fig = go.Figure(data=[go.Bar(x=k_list, y=qj[2][0:len(k_list)])])
