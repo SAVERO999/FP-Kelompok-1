@@ -89,19 +89,23 @@ if selected == "Signal Processing":
     st.plotly_chart(fig)
 
 if selected == "DWT":
-  selected = option_menu(None, ["Filter Coeffs", "Segmentation","Spektrum"], 
-  menu_icon="cast", default_index=0, orientation="vertikal")
+   sub_selected = st.sidebar.radio(
+        "Pilih Metode HRV Analysis",
+        ["Filter Coeffs", "Mallat", "Filter Bank"],
+        index=0
+    )
+
     
-  if selected == 'Filter Coeffs':
-     optimizer_options = ['', 'h(n)', 'Data 50-100', 'Data 101-151', 'Data 151-201','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
+  if sub_selected  == 'Filter Coeffs':
+     optimizer_options = ['', 'h(n)', 'g(n)', 'hw', 'gw','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
      selected_optimizer = st.selectbox('Segmentation', optimizer_options)
      if selected_optimizer == 'h(n)':
         fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
         fig.update_layout(title='h(n) Plot', xaxis_title='n', yaxis_title='g(n)')
         st.plotly_chart(fig)
-  if selected == 'Mallat':
+  if sub_selected  == 'Mallat':
             st.title("t")
-  if selected == 'Filter Bank':
+  if sub_selected  == 'Filter Bank':
             st.title("t")
         
 
