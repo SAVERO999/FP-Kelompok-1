@@ -245,38 +245,41 @@ if selected == "DWT":
             
             # Calculations
             a = -(round(2**j) + round(2**(j-1)) - 2)
-            b = -(1 - round(2**(j-1))) + 1
+            st.write(f"a = {a2}")
+            b2 = -(1 - round(2**(j2-1))) + 1
+            st.write(f"b  = {b2}")
+           
             
             for k in range(a, b):
                 k_list.append(k)
                 qj[1][k + abs(a)] = -2 * (dirac(k) - dirac(k+1))
             # Visualization using Plotly
             fig = go.Figure(data=[go.Bar(x=k_list, y=qj[1][0:len(k_list)])])
-            fig.update_layout(title='', xaxis_title='', yaxis_title='')
+            fig.update_layout(title='q1(k)', xaxis_title='', yaxis_title='')
             
             st.plotly_chart(fig)
      if selected_optimizer == 'q2(k)':
             k_list2 = []
             j2 = 2
             a2 = -(round(2**j2) + round(2**(j2-1)) - 2)
-            st.write(f"a (second part) = {a2}")
+            st.write(f"a = {a2}")
             b2 = -(1 - round(2**(j2-1))) + 1
-            st.write(f"b (second part) = {b2}")
+            st.write(f"b  = {b2}")
             
             for k in range(a2, b2):
                 k_list2.append(k)
                 qj[2][k + abs(a2)] = -1/4 * (dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2) - 3*dirac(k+3) - dirac(k+4))
         
             fig2 = go.Figure(data=[go.Bar(x=k_list2, y=qj[2][0:len(k_list2)])])
-            fig2.update_layout(title='Second Part', xaxis_title='', yaxis_title='')
+            fig2.update_layout(title='q2(k)', xaxis_title='', yaxis_title='')
             st.plotly_chart(fig2)
      if selected_optimizer == 'q3(k)':
             k_list3 = []
             j3 = 3
             a3 = -(round(2**j3) + round(2**(j3-1)) - 2)
-            st.write(f"a (third part) = {a3}")
+            st.write(f"a = {a3}")
             b3 = -(1 - round(2**(j3-1))) + 1
-            st.write(f"b (third part) = {b3}")
+            st.write(f"b  = {b3}")
                 
             for k in range(a3, b3):
                 k_list3.append(k)
@@ -285,15 +288,15 @@ if selected == "DWT":
                                                   - 11*dirac(k+6) - 10*dirac(k+7) - 6*dirac(k+8) - 3*dirac(k+9) - dirac(k+10))
             
             fig3 = go.Figure(data=[go.Bar(x=k_list3, y=qj[3][0:len(k_list3)])])
-            fig3.update_layout(title='Third Part', xaxis_title='', yaxis_title='')
+            fig3.update_layout(title='q3(k)', xaxis_title='', yaxis_title='')
             st.plotly_chart(fig3)
      if selected_optimizer == 'q4(k)':
             k_list4 = []
             j4 = 4
             a4 = -(round(2**j4) + round(2**(j4-1)) - 2)
-            st.write(f"a (fourth part) = {a4}")
+            st.write(f"a  = {a4}")
             b4 = -(1 - round(2**(j4-1))) + 1
-            st.write(f"b (fourth part) = {b4}")
+            st.write(f"b  = {b4}")
                 
             for k in range(a4, b4):
                 k_list4.append(k)
@@ -305,7 +308,7 @@ if selected == "DWT":
                                                    - 15*dirac(k+18) - 10*dirac(k+19) - 6*dirac(k+20) - 3*dirac(k+21) - dirac(k+22))
             
             fig4 = go.Figure(data=[go.Bar(x=k_list4, y=qj[4][0:len(k_list4)])])
-            fig4.update_layout(title='Fourth Part', xaxis_title='', yaxis_title='')
+            fig4.update_layout(title='q4(k)', xaxis_title='', yaxis_title='')
             st.plotly_chart(fig4)
     
    if sub_selected  == 'Mallat':
