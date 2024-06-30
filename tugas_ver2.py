@@ -84,10 +84,16 @@ if selected == "Signal Processing":
     st.plotly_chart(fig)
 
 if selected == "DWT":
-     optimizer_options = ['', 'Filter Coeffs']
-     selected_optimizer = st.selectbox('', optimizer_options)
+     selected = option_menu(None, ["Filtercoeefs", "Mallat","Spektrum"], 
+     menu_icon="cast", default_index=0, orientation="horizontal")
     
      if selected_optimizer == 'Filter Coeffs':
+        optimizer_options3 = ['', 'Data 0-50', 'Data 50-100', 'Data 101-151', 'Data 151-201','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
+        selected_optimizer3 = st.selectbox('Segmentation', optimizer_options3)
+     if selected_optimizer == 'Mallat':
+        st.title{"t")
+         
+        
          
 
 
