@@ -525,7 +525,7 @@ if selected == "DWT":
                     template='plotly_dark'
                 )
                 st.plotly_chart(fig)
-        if selected_optimizer == 'gabungan':  
+       if selected_optimizer == 'gabungan':  
 
             def process_ecg(min_n, max_n, ecg, g, h):
                 w2fm = np.zeros((5, max_n - min_n + 1))
