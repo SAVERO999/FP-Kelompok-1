@@ -84,7 +84,7 @@ if selected == "Signal Processing":
     st.plotly_chart(fig)
 
 if selected == "DWT":
-     selected = option_menu(None, ["Filtercoeefs", "Mallat","Spektrum"], 
+     selected = option_menu(None, ["Filter coeffs", "Mallat","Spektrum"], 
      menu_icon="cast", default_index=0, orientation="horizontal")
     
      if selected_optimizer == 'Filter Coeffs':
