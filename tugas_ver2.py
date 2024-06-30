@@ -40,7 +40,7 @@ if selected == "Home":
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Reynard Prastya Savero - 5023211042</p>'
    st.markdown(new_title, unsafe_allow_html=True)
   
-  if selected == "Signal Processing":
+if selected == "Signal Processing":
     # Plot using Plotly
     fig = go.Figure()
     
