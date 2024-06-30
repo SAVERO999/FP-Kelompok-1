@@ -274,6 +274,14 @@ for n in range(ptp):
     temp = temp+BPM[n]
     rata = temp / (n - 1)
 
+bpm_rr = np.zeros(ptp)
+for n in range (ptp):
+  bpm_rr[n] = 60/selisih[n]
+  if bpm_rr [n]>100:
+    bpm_rr[n]=rata
+bpm_rr
+n = np. arange(0,ptp,1,dtype=int)
+
 
 
 with st.sidebar:
@@ -749,7 +757,17 @@ if selected == "Frekuensi Domain":
             
             # Tampilkan tabel
             st.plotly_chart(fig)
-        
+        if selected == "Baseline":
+            fig = go.Figure(data=go.Scatter(x=n, y=bpm_rr, mode='lines'))
+            fig.update_layout(
+                title="TACHOGRAM",
+                xaxis_title="n",
+                yaxis_title="BPM",
+                xaxis=dict(showline=True, showgrid=True),
+                yaxis=dict(showline=True, showgrid=True)
+            )
+            st.plotly_chart(fig)
+         
     
 
     
