@@ -21,12 +21,24 @@ elapsed_time = sample_interval * (1/125)
 # Center the ECG signal by subtracting the mean
 y = ecg_signal/1e8
 
+def dirac(x):
+    if x == 0:
+        dirac_delta = 1
+    else:
+        dirac_delta = 0
+    result = dirac_delta
+    return result
+
+h = []
+g = []
+n_list = []
+
 
 
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","HRV Analysis"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT"], default_index=0)
 
 if selected == "Home":
    st.title('Project ASN Kelompok 1')
@@ -70,5 +82,13 @@ if selected == "Signal Processing":
     
     )
     st.plotly_chart(fig)
+
+if selected == "DWT":
+     optimizer_options = ['', 'Filter Coeffs']
+     selected_optimizer = st.selectbox('', optimizer_options)
+    
+     if selected_optimizer == 'Filter Coeffs':
+         
+
 
 
