@@ -812,7 +812,7 @@ if selected == "QRS Detection":
 if selected == "Frekuensi Domain": 
         selected = st.sidebar.radio(
         "",
-        ["RR Interval","Baseline", "Segmentation","Spektrum"],
+        ["RR Interval","Baseline", "Segmentation","Spektrum","RSA"],
         index=0
     )
         if selected == "RR Interval":
@@ -868,7 +868,7 @@ if selected == "Frekuensi Domain":
             )
             st.plotly_chart(fig)
         if selected == "Segmentation":
-          optimizer_options = ['', 'Tachogram', 'Windowing','fft','RSA']
+          optimizer_options = ['', 'Tachogram', 'Windowing','fft']
           selected_optimizer = st.selectbox('Segmentation', optimizer_options)
           if selected_optimizer == 'Tachogram':  
             def fourier_transform(signal):
@@ -953,7 +953,7 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_fft)
-          if selected == "Spektrum":
+        if selected == "Spektrum":
                 min_length = min(len(fft_result) for fft_result in fft_results_dict.values())
 
                 # Truncate all FFT results to the minimum length
@@ -1166,7 +1166,7 @@ if selected == "Frekuensi Domain":
         # Display heatmap in Streamlit
                 st.plotly_chart(fig)
 
-          if selected_optimizer == 'RSA':
+        if selected == 'RSA':
                 # Fungsi untuk interpolasi manual
                 def manual_interpolation(x, xp, fp):
                     return np.interp(x, xp, fp)
