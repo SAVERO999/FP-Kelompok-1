@@ -164,6 +164,17 @@ for k in range (a,b):
 - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
 - dirac(k+46))
 
+T1= round (2**(1-1))-1
+T2 = round(2** (2-1)) - 1
+T3 = round(2** (3-1)) - 1
+T4 = round(2**(4-1)) - 1
+T5 = round(2**(5-1))- 1
+Delay1= T5-T1
+Delay2= T5-T2
+Delay3= T5-T3
+Delay4= T5-T4
+Delay5= T5-T5
+
 ecg=y
 
 min_n = 0 * fs
