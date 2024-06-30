@@ -173,11 +173,7 @@ if selected == "DWT":
             fig = go.Figure(data=traces, layout=layout)
             st.plotly_chart(fig)
 
-     if selected_optimizer == 'q1(k)':
-     if selected_optimizer == 'q2(k)':
-     if selected_optimizer == 'q3(k)':
-     if selected_optimizer == 'q4(k)':
-     if selected_optimizer == 'q5(k)':
+
         
 
 
