@@ -89,7 +89,7 @@ if selected == "DWT":
     
   if selected == 'Filter Coeffs':
      optimizer_options = ['', 'h(n)', 'Data 50-100', 'Data 101-151', 'Data 151-201','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
-     selected_optimizer3 = st.selectbox('Segmentation', optimizer_options)
+     selected_optimizer = st.selectbox('Segmentation', optimizer_options)
      if selected_optimizer == 'h(n)':
         fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
         fig.update_layout(title='h(n) Plot', xaxis_title='n', yaxis_title='g(n)')
