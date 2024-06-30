@@ -62,6 +62,25 @@ for i in range(0,fs + 1):
 
 i_list = i_list[0:round(fs/2)+1]
 
+Q = np.zeros((9, round(fs/2) + 1))
+
+# Generate the i_list and fill Q with the desired values
+i_list = []
+for i in range(0, round(fs/2) + 1):
+    i_list.append(i)
+    Q[1][i] = Gw[i]
+    Q[2][i] = Gw[2*i] * Hw[i]
+    Q[3][i] = Gw[4*i] * Hw[2*i] * Hw[i]
+    Q[4][i] = Gw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[5][i] = Gw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[6][i] = Gw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[7][i] = Gw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+    Q[8][i] = Gw[128*i] * Hw[64*i] * Hw[32*i] * Hw[16*i] * Hw[8*i] * Hw[4*i] * Hw[2*i] * Hw[i]
+
+traces = []
+
+
+
 
 
 
@@ -121,7 +140,7 @@ if selected == "DWT":
 
     
    if sub_selected  == 'Filter Coeffs':
-     optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
+     optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Qj (f)','q1(k)','q2(k)','q3(k),'q4(k),'q5(k)']
      selected_optimizer = st.selectbox('Segmentation', optimizer_options)
      if selected_optimizer == 'h(n) & g(n)':
         fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
@@ -132,7 +151,6 @@ if selected == "DWT":
         fig.update_layout(title='g(n) Plot', xaxis_title='n', yaxis_title='g(n)')
         st.plotly_chart(fig)
      if selected_optimizer == 'hw & gw':
-        
         fig = go.Figure(data=go.Scatter(x=i_list, y=Hw[:len(i_list)]))
         fig.update_layout(title='Hw Plot', xaxis_title='i', yaxis_title='Gw')
         st.plotly_chart(fig)
@@ -140,6 +158,30 @@ if selected == "DWT":
         fig = go.Figure(data=go.Scatter(x=i_list, y=Gw[:len(i_list)]))
         fig.update_layout(title='Gw Plot', xaxis_title='i', yaxis_title='Gw')
         st.plotly_chart(fig)
+     
+     if selected_optimizer == 'Qj (f)':
+         for i in range(1, 9):
+            trace = go.Scatter(x=i_list, y=Q[i], mode='lines', name=f'Q[{i}]')
+            traces.append(trace)
+            
+            
+            layout = go.Layout(title='Qj (f)',
+                               xaxis=dict(title=''),
+                               yaxis=dict(title=''))
+            
+            
+            fig = go.Figure(data=traces, layout=layout)
+            st.plotly_chart(fig)
+
+
+
+     if selected_optimizer == 'q1(k)':
+     if selected_optimizer == 'q2(k)':
+     if selected_optimizer == 'q3(k)':
+     if selected_optimizer == 'q4(k)':
+     if selected_optimizer == 'q5(k)':
+        
+
 
     
    if sub_selected  == 'Mallat':
