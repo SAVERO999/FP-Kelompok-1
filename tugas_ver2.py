@@ -58,3 +58,17 @@ if selected == "Signal Processing":
     
     # Show the plot
     st.plotly_chart(fig)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
+    fig.update_layout(
+        height=500,
+        width=1500,
+        title="Plot Data ECG (a)",
+        xaxis_title="Elapsed Time",
+        yaxis_title="Nilai",
+    
+    )
+    fig.show()
+
+
