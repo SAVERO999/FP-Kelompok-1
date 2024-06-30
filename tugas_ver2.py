@@ -239,10 +239,39 @@ N = len(ecg)
 for k in range(delay, N - delay):
     gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
 
+ptp = 0
+waktu = np.zeros(np.size(hasil_QRS))
+selisih = np.zeros(np.size(hasil_QRS))
+
+for n in range(np.size(hasil_QRS) - 1):
+    if hasil_QRS[n] < hasil_QRS[n + 1]:
+        waktu[ptp] = n / fs;
+        selisih[ptp] = waktu[ptp] - waktu[ptp - 1]
+        ptp += 1
+
+ptp = ptp - 1
+
+j = 0
+peak = np.zeros(np.size(hasil_QRS))
+for n in range(np.size(hasil_QRS)-1):
+    if hasil_QRS[n] == 5 and hasil_QRS[n-1] == 0:
+        peak[j] = n
+        j += 1
+
+temp = 0
+interval = np.zeros(np.size(hasil_QRS))
+BPM = np.zeros(np.size(hasil_QRS))
+
+for n in range(ptp):
+    interval[n] = (peak[n] - peak[n-1]) * (1/fs)
+    BPM[n] = 60 / interval[n]
+    temp = temp+BPM[n]
+    rata = temp / (n - 1)
+
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT","Zeros Crossing","QRS Detection"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home", "Input Data","DWT","Zeros Crossing","QRS Detection","Frekuensi Domain"], default_index=0)
 
 if selected == "Home":
    st.title('Project ASN Kelompok 1')
@@ -256,7 +285,7 @@ if selected == "Home":
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Reynard Prastya Savero - 5023211042</p>'
    st.markdown(new_title, unsafe_allow_html=True)
   
-if selected == "Signal Processing":
+if selected == "Input Data":
     # Plot using Plotly
     fig = go.Figure()
     
@@ -675,7 +704,46 @@ if selected == "QRS Detection":
             # Show the figure
             st.plotly_chart(fig)
 
-    
+if selected == "Frekuensi Domain": 
+        selected = st.sidebar.radio(
+        "",
+        ["RR Interval","Baseline", "Segmentation","Spektrum"],
+        index=0
+    )
+        if selected == "RR Interval":
+            data = {
+            "Calculation of HR": ["NUMBERS OF R TO R CALCULATIONS", "CALCULATION OF THE AMOUNT OF R", "BPM CALCULATIONS"],
+            "Hasil": [ptp, j, rata]
+        }
+            df = pd.DataFrame(data)
+        
+        # Buat tabel menggunakan Plotly
+            fig = go.Figure(data=[go.Table(
+            columnwidth=[80, 20],  # Set column width
+            header=dict(values=list(df.columns),
+                        fill_color='red',  # Ubah warna header menjadi merah
+                        align='left',
+                        line_color='darkslategray',
+                        height=30),  # Set header height
+            cells=dict(values=[df["Calculation of HR"], df["Hasil"]],
+                       fill_color='white',  # Ubah warna sel menjadi merah
+                       align='left',
+                       line_color='darkslategray',
+                       height=25,  # Set cell height
+                       font_size=12,  # Set font size
+                       ),
+        )])
+        
+            # Set layout to adjust the table size
+            fig.update_layout(
+                width=800,
+                height=200,
+                margin=dict(l=10, r=10, t=10, b=10)
+            )
+            
+            # Tampilkan tabel
+            st.plotly_chart(fig)
+        
     
 
     
