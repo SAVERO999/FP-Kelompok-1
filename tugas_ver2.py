@@ -91,7 +91,7 @@ if selected == "DWT":
         optimizer_options3 = ['', 'Data 0-50', 'Data 50-100', 'Data 101-151', 'Data 151-201','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
         selected_optimizer3 = st.selectbox('Segmentation', optimizer_options3)
      if selected_optimizer == 'Mallat':
-        st.title{"t")
+        st.title("t")
          
         
          
