@@ -1018,25 +1018,7 @@ if selected == "Frekuensi Domain":
                 )
                 
                 st.plotly_chart(fig)
-                # Buat DataFrame
-                data = {
-                    "Metric": ["Total Power (TP)", "VLF", "LF", "HF", "LF/HF"],
-                    "Value": [tp, VLF, LF_norm, HF_norm, LF_HF]
-                }
-                df = pd.DataFrame(data)
-                
-                # Buat tabel menggunakan Plotly
-                fig = go.Figure(data=[go.Table(
-                    header=dict(values=list(df.columns),
-                                fill_color='paleturquoise',
-                                align='left'),
-                    cells=dict(values=[df.Metric, df.Value],
-                               fill_color='lavender',
-                               align='left'))
-                ])
-                
-                # Tampilkan tabel
-                st.plotly_chart(fig)
+
                 def trapezoidal_rule(y, x):
                     return np.sum((x[1:] - x[:-1]) * (y[1:] + y[:-1]) / 2)
                 
@@ -1080,7 +1062,7 @@ if selected == "Frekuensi Domain":
     
                 # Buat bar series
                 categories = ['Total Power (TP)', 'VLF', 'LF', 'HF']
-                values = [tp, VLF, LF_norm *10, HF_norm*10]
+                values = [tp*10, VLF*10, LF_norm *100, HF_norm*100]
                 
                 # Buat plot batang
                 fig = go.Figure()
