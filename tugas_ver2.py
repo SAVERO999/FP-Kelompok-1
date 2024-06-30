@@ -97,12 +97,18 @@ if selected == "DWT":
 
     
    if sub_selected  == 'Filter Coeffs':
-     optimizer_options = ['', 'h(n)', 'g(n)', 'hw', 'gw','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
+     optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Data 201-251','Data 251-301','Data 301-351','FFT TOTAL']
      selected_optimizer = st.selectbox('Segmentation', optimizer_options)
-     if selected_optimizer == 'h(n)':
+     if selected_optimizer == 'h(n)  & g(n)':
         fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
         fig.update_layout(title='h(n) Plot', xaxis_title='n', yaxis_title='g(n)')
         st.plotly_chart(fig)
+         
+        fig = go.Figure(data=[go.Bar(x=n_list, y=g)])
+        fig.update_layout(title='g(n) Plot', xaxis_title='n', yaxis_title='g(n)')
+        st.plotly_chart(fig)
+
+    
    if sub_selected  == 'Mallat':
             st.title("t")
    if sub_selected  == 'Filter Bank':
