@@ -485,7 +485,43 @@ if selected == "DWT":
             for i in range(5):
                 create_plot(n_values, s2fm_values[i], i, 's2fm')
    if sub_selected  == 'Filter Bank':
-           # Initialize a list to store figures
+            T1= round (2**(1-1))-1
+            T2 = round(2** (2-1)) - 1
+            T3 = round(2** (3-1)) - 1
+            T4 = round(2**(4-1)) - 1
+            T5 = round(2**(5-1))- 1
+            Delay1= T5-T1
+            Delay2= T5-T2
+            Delay3= T5-T3
+            Delay4= T5-T4
+            Delay5= T5-T5
+            
+            w2fb = np.zeros((6, len(ecg) + T5))
+            
+            
+            n_list = list(range(len(ecg)))
+            
+            # Perform calculations
+            for n in n_list:
+                for j in range(1, 6):
+                    w2fb[1][n + T1] = 0
+                    w2fb[2][n + T2] = 0
+                    w2fb[3][n + T3] = 0
+                    a = -(round(2**j) + round(2**(j - 1)) - 2)
+                    b = -(1 - round(2**(j - 1)))
+                    for k in range(a, b + 1):
+                        index = n - (k + abs(a))
+                        if 0 <= index < len(ecg):
+                            w2fb[1][n + T1] += qj[1][k + abs(a)] * ecg[index]
+                            w2fb[2][n + T2] += qj[2][k + abs(a)] * ecg[index]
+                            w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
+                            w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
+                            w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
+            
+            # Create and display plots for each DWT level
+            figs = []
+            n = np.arange(1000)
+                       # Initialize a list to store figures
             figs = []
             
             # Create and append figures to the list
