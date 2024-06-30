@@ -281,6 +281,12 @@ for n in range (ptp):
     bpm_rr[n]=rata
 n = np. arange(0,ptp,1,dtype=int)
 
+#normalisasi tachogram
+bpm_rr_baseline = bpm_rr -22
+
+# Plotting dengan Plotly
+n = np.arange(0, ptp, 1, dtype=int)
+
 
 
 with st.sidebar:
@@ -766,7 +772,18 @@ if selected == "Frekuensi Domain":
                 yaxis=dict(showline=True, showgrid=True)
             )
             st.plotly_chart(fig)
-         
+            fig = go.Figure(data=go.Scatter(x=n, y=bpm_rr_baseline, mode='lines'))
+            fig.update_layout(
+                title="TACHOGRAM",
+                xaxis_title="n",
+                yaxis_title="BPM",
+                xaxis=dict(showline=True, showgrid=True),
+                yaxis=dict(showline=True, showgrid=True)
+            )
+            st.plotly_chart(fig)
+
+
+
     
 
     
