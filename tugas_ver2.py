@@ -279,7 +279,6 @@ for n in range (ptp):
   bpm_rr[n] = 60/selisih[n]
   if bpm_rr [n]>100:
     bpm_rr[n]=rata
-bpm_rr
 n = np. arange(0,ptp,1,dtype=int)
 
 
