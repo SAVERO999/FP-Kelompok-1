@@ -828,7 +828,7 @@ if selected == "Frekuensi Domain":
             f" TACHOGRAM (Subset {start_index}-{end_index-1})",
             f"Hamming Window (Subset {start_index}-{end_index-1})",
             f"FFT  (Subset {start_index}-{end_index-1})"
-         ))
+            ))
     
             # Plot original Tachogram
             fig.add_trace(
