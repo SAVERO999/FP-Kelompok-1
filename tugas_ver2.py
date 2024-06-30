@@ -435,7 +435,7 @@ if selected == "DWT":
        optimizer_options = ['', 'w2fm', 's2fm','gabungan']
        selected_optimizer = st.selectbox('Segmentation', optimizer_options)
        if selected_optimizer == 'w2fm':
-                       # Function to create and show a plot
+            # Function to create and show a plot
             ecg=y
             
             min_n = 0 * fs
@@ -465,7 +465,22 @@ if selected == "DWT":
             n_values = np.arange(min_n, max_n + 1)
             w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[5,n] in original code (0-based index)
             s2fm_values = [s2fm[i, :] for i in range(5)]  # Equivalent to s2fm[1,n] to s2fm[5,n] in original code (0-based index)
-            # Create and show plots for w2fm series
+            def create_plot(n_values, series, index, series_name):
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=n_values, y=series, mode='lines', name=f'{series_name}[{index+1},n]'))
+                fig.update_layout(
+                    title=f'{series_name}[{index+1},n] vs n',
+                    xaxis_title='n',
+                    yaxis_title=f'{series_name}[{index+1},n]',
+                    template='plotly_dark'
+                )
+                st.plotly_chart(fig)
+            
+
+            
+
+            
+            # Create and show plots for s2fm series
             st.header('w2fm Series Plots')
             for i in range(5):
                 create_plot(n_values, w2fm_values[i], i, 'w2fm')
