@@ -525,11 +525,48 @@ if selected == "DWT":
                     template='plotly_dark'
                 )
                 st.plotly_chart(fig)
-            
+        if selected_optimizer == 'gabungan':  
 
+            def process_ecg(min_n, max_n, ecg, g, h):
+                w2fm = np.zeros((5, max_n - min_n + 1))
+                s2fm = np.zeros((5, max_n - min_n + 1))
             
-
+                for n in range(min_n, max_n + 1):
+                    for j in range(1, 6):
+                        w2fm[j-1, n - min_n] = 0
+                        s2fm[j-1, n - min_n] = 0
+                        for k in range(-1, 3):
+                            index = round(n - 2**(j-1) * k)
+                            if 0 <= index < len(ecg):  # Ensure the index is within bounds
+                                w2fm[j-1, n - min_n] += g[k+1] * ecg[index]  # g[k+1] to match Pascal's array index starting from -1
+                                s2fm[j-1, n - min_n] += h[k+1] * ecg[index]  # h[k+1] to match Pascal's array index starting from -1
             
+                return w2fm, s2fm
+            
+            # Compute w2fm and s2fm
+            w2fm, s2fm = process_ecg(min_n, max_n, ecg, g, h)
+            
+            # Prepare data for plotting
+            n_values = np.arange(min_n, max_n + 1)
+            w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[5,n] in original code (0-based index)
+            s2fm_values = [s2fm[i, :] for i in range(5)]  # Equivalent to s2fm[1,n] to s2fm[5,n] in original code (0-based index)
+            
+            # Function to create and display a combined plot for a given pair of series
+            def create_combined_plot(n_values, w_series, s_series, index):
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=n_values, y=w_series, mode='lines', name=f'w2fm[{index+1},n]'))
+                fig.add_trace(go.Scatter(x=n_values, y=s_series, mode='lines', name=f's2fm[{index+1},n]'))
+                fig.update_layout(
+                    title=f'w2fm[{index+1},n] and s2fm[{index+1},n] vs n',
+                    xaxis_title='n',
+                    yaxis_title=f'w2fm[{index+1},n] and s2fm[{index+1},n]',
+                    template='plotly_dark'
+                )
+                st.plotly_chart(fig)
+            
+            # Create and show combined plots for each pair of w2fm and s2fm series
+            for i in range(5):
+                create_combined_plot(n_values, w2fm_values[i], s2fm_values[i], i)
             # Create and show plots for s2fm series
             st.header('s2fm Series Plots')
             for i in range(5):
