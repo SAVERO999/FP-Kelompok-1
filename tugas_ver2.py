@@ -868,7 +868,7 @@ if selected == "Frekuensi Domain":
             )
             st.plotly_chart(fig)
         if selected == "Segmentation":
-          optimizer_options = ['', 'Tachogram', 'Windowing','fft']
+          optimizer_options = ['', 'Tachogram', 'Windowing','fft','RSA']
           selected_optimizer = st.selectbox('Segmentation', optimizer_options)
           if selected_optimizer == 'Tachogram':  
             def fourier_transform(signal):
@@ -953,7 +953,7 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_fft)
-        if selected == "Spektrum":
+          if selected == "Spektrum":
                 min_length = min(len(fft_result) for fft_result in fft_results_dict.values())
 
                 # Truncate all FFT results to the minimum length
@@ -1166,7 +1166,60 @@ if selected == "Frekuensi Domain":
         # Display heatmap in Streamlit
                 st.plotly_chart(fig)
 
+          if selected_optimizer == 'RSA':
+                # Fungsi untuk interpolasi manual
+                def manual_interpolation(x, xp, fp):
+                    return np.interp(x, xp, fp)
+                
+                x_hf = np.linspace(0.15, 0.4, 99)
+                y_hf = manual_interpolation(x_hf, fft_freq_half, np.abs(FFT_TOTAL))
+                
+                # Buat plot spektrum FFT
+                fig = go.Figure()
+                
+                # Isi antara pita frekuensi HF
+                fig.add_trace(go.Scatter(
+                    x=x_hf,
+                    y=y_hf,
+                    fill='tozeroy',
+                    fillcolor='rgba(216, 166, 81, 0.2)',
+                    line=dict(color='rgba(216, 166, 81, 0.5)'),
+                    name='HF'
+                ))
+                
+                # Menambahkan judul dan label sumbu
+                fig.update_layout(
+                    title="HF",
+                    xaxis_title="Frequency (Hz)",
+                    yaxis_title="Density",
+                
+                )
+                
+                st.plotly_chart(fig)
+                
 
+# Fungsi untuk interpolasi manual
+                def manual_interpolation(x, xp, fp):
+                    return np.interp(x, xp, fp)
+                
+                # Rentang frekuensi yang diinginkan
+                x_hf = np.linspace(0.15, 0.4, 99)
+                y_hf = manual_interpolation(x_hf, fft_freq_half, np.abs(FFT_TOTAL))
+                
+                numerator = np.sum(x_hf * y_hf)  # Sum f_i * P_i
+                denominator = np.sum(y_hf)       # Sum P_i
+                
+                MPF = numerator / denominator 
+                st.write(f"Mean Power Frequency (MPF) : {MPF} Hz")
+                
+                # Mengalikan hasil MPF dengan 60
+                MPF_multiplied = MPF * 60
+                
+                st.write(f"Nilai Respiratory Rate: {MPF_multiplied} BPM")
+
+              
+
+              
 
 
 
