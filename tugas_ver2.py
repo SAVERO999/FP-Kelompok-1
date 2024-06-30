@@ -644,7 +644,7 @@ if selected == "QRS Detection":
                     hasil_QRS[i-(T4+1)] = 5
                 else:
                     hasil_QRS[i-(T4+1)] = 0
-                        fig = go.Figure()
+            fig = go.Figure()
             
             # Add QRS detection trace
             fig.add_trace(go.Scatter(x=elapsed_time, y=hasil_QRS, mode='lines', name='QRS Detection', line=dict(color='blue')))
