@@ -205,14 +205,26 @@ n_values = np.arange(min_n, max_n + 1)
 w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[5,n] in original code (0-based index)
 s2fm_values = [s2fm[i, :] for i in range(5)]  # Equivalent to s2fm[1,n] to s2fm[5,n] in original code (0-based index)
 
+gradien1 = np.zeros(len(ecg))
+gradien2 = np.zeros(len(ecg))
+gradien3 = np.zeros(len(ecg))
+
+# Define delay
+delay = T3
+
+# Compute gradien3
+N = len(ecg)
+for k in range(delay, N - delay):
+    gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
+
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT","Zeros Crossing"], default_index=0)
 
 if selected == "Home":
-   st.title('Project ASN Kelompok 1')
-   st.subheader("Anggota kelompok")
+   st.title('Project ASN Kelompok 1')c
+   st.subheader("Anggota kelompok"),"
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Farhan Majid Ibrahim - 5023211049</p>'
    st.markdown(new_title, unsafe_allow_html=True)
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Nayla Pramudhita Putri Pertama - 5023211012</p>'
@@ -509,7 +521,14 @@ if selected == "DWT":
                 st.header(f'Plot Orde {i+1}')
                 st.plotly_chart(fig)
         
+if selected == "Zeros Crossing":
+    # Plot with Plotly
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=ecg.index[0:1000], y=gradien3[0:1000], mode='lines', name='Gradien 3', line=dict(color='blue')))
+            fig.update_layout(title='Gradien 3', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
+            st.plotly_chart(fig)
 
+    
     
 
     
