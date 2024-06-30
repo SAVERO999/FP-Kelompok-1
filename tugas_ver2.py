@@ -140,7 +140,7 @@ if selected == "DWT":
 
     
    if sub_selected  == 'Filter Coeffs':
-     optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Qj (f)','q1(k)','q2(k)','q3(k),'q4(k),'q5(k)']
+     optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Qj (f)','q1(k)','q2(k)','q3(k)','q4(k)','q5(k)']
      selected_optimizer = st.selectbox('Segmentation', optimizer_options)
      if selected_optimizer == 'h(n) & g(n)':
         fig = go.Figure(data=[go.Bar(x=n_list, y=h)])
