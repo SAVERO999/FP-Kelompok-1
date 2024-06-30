@@ -355,6 +355,24 @@ y_vlf = manual_interpolation(x_vlf, fft_freq_half, np.abs(FFT_TOTAL))
 y_lf = manual_interpolation(x_lf, fft_freq_half, np.abs(FFT_TOTAL))
 y_hf = manual_interpolation(x_hf, fft_freq_half, np.abs(FFT_TOTAL))
 
+def trapezoidal_rule(y, x):
+    return np.sum((x[1:] - x[:-1]) * (y[1:] + y[:-1]) / 2)
+
+# Hitung Total Power (TP) menggunakan metode trapesium manual
+TP = trapezoidal_rule(np.abs(FFT_TOTAL), fft_freq_half)
+
+# Hitung nilai VLF, LF, dan HF menggunakan metode trapesium manual
+VLF = trapezoidal_rule(y_vlf, x_vlf)
+LF = trapezoidal_rule(y_lf, x_lf)
+HF = trapezoidal_rule(y_hf, x_hf)
+
+tp = VLF + LF + HF
+# Hitung LF dan HF yang dinormalisasi
+LF_norm = LF / (tp - VLF)
+HF_norm = HF / (tp- VLF)
+LF_HF = LF / HF
+
+
 
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Input Data","DWT","Zeros Crossing","QRS Detection","Frekuensi Domain"], default_index=0)
@@ -1000,6 +1018,52 @@ if selected == "Frekuensi Domain":
                 )
                 
                 st.plotly_chart(fig)
+                # Buat DataFrame
+                data = {
+                    "Metric": ["Total Power (TP)", "VLF", "LF", "HF", "LF/HF"],
+                    "Value": [tp, VLF, LF_norm, HF_norm, LF_HF]
+                }
+                df = pd.DataFrame(data)
+                
+                # Buat tabel menggunakan Plotly
+                fig = go.Figure(data=[go.Table(
+                    header=dict(values=list(df.columns),
+                                fill_color='paleturquoise',
+                                align='left'),
+                    cells=dict(values=[df.Metric, df.Value],
+                               fill_color='lavender',
+                               align='left'))
+                ])
+                
+                # Tampilkan tabel
+                st.plotly_chart(fig)
+                
+                
+                
+                # Buat bar series
+                categories = ['Total Power (TP)', 'VLF', 'LF', 'HF']
+                values = [tp, VLF, LF_norm *10, HF_norm*10]
+                
+                # Buat plot batang
+                fig = go.Figure()
+                
+                fig.add_trace(go.Bar(
+                    x=categories,
+                    y=values,
+                    marker_color=['blue', 'orange', 'green', 'red']
+                ))
+                
+                # Menambahkan judul dan label sumbu
+                fig.update_layout(
+                    title='Bar Series dari VLF, LF, HF',
+                    xaxis_title='Kategori',
+                    yaxis_title='Nilai'
+                )
+                
+                st.plotly_chart(fig)
+
+
+
 
 
 
