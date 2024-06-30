@@ -828,41 +828,41 @@ if selected == "Frekuensi Domain":
             f" TACHOGRAM (Subset {start_index}-{end_index-1})",
             f"Hamming Window (Subset {start_index}-{end_index-1})",
             f"FFT  (Subset {start_index}-{end_index-1})"
-        ))
+         ))
     
-        # Plot original Tachogram
-        fig.add_trace(
-            go.Scatter(x=n_subset, y=bpm_rr_baseline_subset, mode='lines', name='Original Signal', line=dict(color=colors[i])),
-            row=1, col=1
-        )
-    
-        # Plot Tachogram with Hamming Window
-        fig.add_trace(
-            go.Scatter(x=n_subset, y=bpm_rr_baseline_windowed, mode='lines', name='Windowed Signal', line=dict(color=colors[i])),
-            row=1, col=2
-        )
-    
-        # Plot FFT
-        fig.add_trace(
-            go.Scatter(x=fft_freq_half, y=np.abs(fft_result_half), mode="lines", line=dict(color=colors[i])),
-            row=1, col=3
-        )
-    
-        # Update layout
-        fig.update_layout(
-            title=f"TACHOGRAM and FFT (Subset {start_index}-{end_index-1})",
-            showlegend=False
-        )
-    
-        fig.update_xaxes(title_text="n", row=1, col=1)
-        fig.update_yaxes(title_text="BPM", row=1, col=1)
-        fig.update_xaxes(title_text="n", row=1, col=2)
-        fig.update_yaxes(title_text="BPM", row=1, col=2)
-        fig.update_xaxes(title_text="Frequency (Hz)", row=1, col=3)
-        fig.update_yaxes(title_text="Magnitude", row=1, col=3)
-    
-        st.plotly_chart(fig)
-            
+            # Plot original Tachogram
+            fig.add_trace(
+                go.Scatter(x=n_subset, y=bpm_rr_baseline_subset, mode='lines', name='Original Signal', line=dict(color=colors[i])),
+                row=1, col=1
+            )
+        
+            # Plot Tachogram with Hamming Window
+            fig.add_trace(
+                go.Scatter(x=n_subset, y=bpm_rr_baseline_windowed, mode='lines', name='Windowed Signal', line=dict(color=colors[i])),
+                row=1, col=2
+            )
+        
+            # Plot FFT
+            fig.add_trace(
+                go.Scatter(x=fft_freq_half, y=np.abs(fft_result_half), mode="lines", line=dict(color=colors[i])),
+                row=1, col=3
+            )
+        
+            # Update layout
+            fig.update_layout(
+                title=f"TACHOGRAM and FFT (Subset {start_index}-{end_index-1})",
+                showlegend=False
+            )
+        
+            fig.update_xaxes(title_text="n", row=1, col=1)
+            fig.update_yaxes(title_text="BPM", row=1, col=1)
+            fig.update_xaxes(title_text="n", row=1, col=2)
+            fig.update_yaxes(title_text="BPM", row=1, col=2)
+            fig.update_xaxes(title_text="Frequency (Hz)", row=1, col=3)
+            fig.update_yaxes(title_text="Magnitude", row=1, col=3)
+        
+            st.plotly_chart(fig)
+                
 
 
 
