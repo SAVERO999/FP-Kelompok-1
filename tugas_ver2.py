@@ -1256,7 +1256,7 @@ if selected == "Frekuensi Domain":
                     xaxis_title="Time (s)",
                     yaxis_title="Amplitude",
                 )
-                st.plotly_chart(fig_hf)
+                st.plotly_chart(fig_hf_signal)
             
 
               
