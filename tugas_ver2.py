@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
 import math
 import streamlit as st 
 from plotly.subplots import make_subplots
-
+import plotly.express as px
 
 
 df = pd.read_csv('dataecginofix1.txt', sep='\s+', header=None)
@@ -946,7 +946,7 @@ if selected == "Frekuensi Domain":
                     go.Scatter(x=fft_freq_half, y=np.abs(fft_result_half), mode="lines", line=dict(color=colors[i]))
                 )
                 fig_fft.update_layout(
-                    title=f"FFT of TACHOGRAM (Subset {start_index}-{end_index-1})",
+                    title=f"FFT  (Subset {start_index}-{end_index-1})",
                     xaxis_title="Frequency (Hz)",
                     yaxis_title="Magnitude",
                     showlegend=False
@@ -969,11 +969,12 @@ if selected == "Frekuensi Domain":
                     go.Scatter(x=fft_freq_half, y=np.abs(FFT_TOTAL), mode="lines", line=dict(color='black'))
                 )
                 fig_avg.update_layout(
-                    title="Averaged FFT of TACHOGRAM Subsets",
+                    title="Averaged FFT ",
                     xaxis_title="Frequency (Hz)",
                     yaxis_title="Magnitude",
                     showlegend=False
                 )
+                st.title("Average FFT")
                 st.plotly_chart(fig_avg)
                 fig = go.Figure()
 
@@ -1016,7 +1017,7 @@ if selected == "Frekuensi Domain":
                     yaxis=dict(range=[0, max(np.abs(FFT_TOTAL))]),
                     legend=dict(x=0.8, y=0.95)
                 )
-                
+                st.title("Frequency Spektrumr")
                 st.plotly_chart(fig)
 
                 def trapezoidal_rule(y, x):
@@ -1039,7 +1040,7 @@ if selected == "Frekuensi Domain":
                 
                 LF_HF = LF / HF
                 
-                
+                st.title("Frequency Domain Parameter")
                 # Buat DataFrame
                 data = {
                     "Metric": ["Total Power (TP)", "VLF", "LF", "HF", "LF/HF"],
