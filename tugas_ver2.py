@@ -375,7 +375,7 @@ LF_HF = LF / HF
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Input Data","DWT","Zeros Crossing","QRS Detection","Frekuensi Domain"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home", "DWT","Zeros Crossing","QRS Detection","Frekuensi Domain"], default_index=0)
 
 if selected == "Home":
    st.title('Project ASN Kelompok 1')
@@ -389,45 +389,46 @@ if selected == "Home":
    new_title = '<p style="font-family:Georgia; color: black; font-size: 15px;">Reynard Prastya Savero - 5023211042</p>'
    st.markdown(new_title, unsafe_allow_html=True)
   
-if selected == "Input Data":
-    # Plot using Plotly
-    fig = go.Figure()
-    
-    # Add the ECG signal trace
-    fig.add_trace(go.Scatter(x=elapsed_time, y=y, mode='lines', name='ECG Signal'))
-    
-    # Update the layout
-    fig.update_layout(
-        title='ECG Signal',
-        xaxis_title='Elapsed Time (s)',
-        yaxis_title='Amplitude',
-        width=1000,
-        height=400
-    )
-    
-    # Show the plot
-    st.plotly_chart(fig)
 
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
-    fig.update_layout(
-        height=500,
-        width=1500,
-        title="ECG Signal",
-        xaxis_title="Elapsed Time (s)",
-        yaxis_title="Nilai",
-    
-    )
-    st.plotly_chart(fig)
 
 if selected == "DWT":
    sub_selected = st.sidebar.radio(
-        "Pilih Metode HRV Analysis",
-        ["Filter Coeffs", "Mallat", "Filter Bank"],
+        "",
+        ["Input  Data","Filter Coeffs", "Mallat", "Filter Bank"],
         index=0
     )
 
+   if sub_selected  == 'Input Data': 
+          # Plot using Plotly
+        fig = go.Figure()
+        
+        # Add the ECG signal trace
+        fig.add_trace(go.Scatter(x=elapsed_time, y=y, mode='lines', name='ECG Signal'))
+        
+        # Update the layout
+        fig.update_layout(
+            title='ECG Signal',
+            xaxis_title='Elapsed Time (s)',
+            yaxis_title='Amplitude',
+            width=1000,
+            height=400
+        )
+        
+        # Show the plot
+        st.plotly_chart(fig)
     
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG (a)', line=dict(color='blue')))
+        fig.update_layout(
+            height=500,
+            width=1500,
+            title="ECG Signal",
+            xaxis_title="Elapsed Time (s)",
+            yaxis_title="Nilai",
+        
+        )
+        st.plotly_chart(fig)
+       
    if sub_selected  == 'Filter Coeffs':
      optimizer_options = ['', 'h(n) & g(n)', 'hw & gw','Qj (f)','q1(k)','q2(k)','q3(k)','q4(k)','q5(k)']
      selected_optimizer = st.selectbox('Segmentation', optimizer_options)
