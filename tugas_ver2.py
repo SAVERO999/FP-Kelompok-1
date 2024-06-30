@@ -394,7 +394,7 @@ if selected == "Home":
 if selected == "DWT":
    sub_selected = st.sidebar.radio(
         "",
-        ["Input  Data","Filter Coeffs", "Mallat", "Filter Bank"],
+        ["Input Data","Filter Coeffs", "Mallat", "Filter Bank"],
         index=0
     )
 
