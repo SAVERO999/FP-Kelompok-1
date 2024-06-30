@@ -644,6 +644,21 @@ if selected == "QRS Detection":
                     hasil_QRS[i-(T4+1)] = 5
                 else:
                     hasil_QRS[i-(T4+1)] = 0
+                        fig = go.Figure()
+            
+            # Add QRS detection trace
+            fig.add_trace(go.Scatter(x=elapsed_time, y=hasil_QRS, mode='lines', name='QRS Detection', line=dict(color='blue')))
+            
+            # Add ECG signal trace
+            fig.add_trace(go.Scatter(x=elapsed_time, y=y, mode='lines', name='ECG ', line=dict(color='red')))
+            
+            # Update layout
+            fig.update_layout(title='QRS Detection', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
+            fig.update_layout(legend=dict(x=1, y=1, traceorder='normal', font=dict(size=12)))
+            
+            # Show the figure
+            st.plotly_chart(fig)
+    
             # Plot with Plotly
             fig = go.Figure()
             
