@@ -331,8 +331,29 @@ for i in range(7):
 
     # Store fft_result_half in the dictionary
     fft_results_dict[f'fft_result{i+1}'] = fft_result_half
+    
+min_length = min(len(fft_result) for fft_result in fft_results_dict.values())
 
-            
+# Truncate all FFT results to the minimum length
+for key in fft_results_dict:
+    fft_results_dict[key] = fft_results_dict[key][:min_length]
+
+# Average the FFT results
+FFT_TOTAL = sum(fft_results_dict[key] for key in fft_results_dict) / len(fft_results_dict)
+fft_freq_half = fft_freq_half[:min_length]  # Truncate frequency array to match
+
+# Frequency bands
+x_vlf = np.linspace(0.003, 0.04, 99)
+x_lf = np.linspace(0.04, 0.15, 99)
+x_hf = np.linspace(0.15, 0.4, 99)
+
+# Interpolation
+def manual_interpolation(x, xp, fp):
+    return np.interp(x, xp, fp)
+
+y_vlf = manual_interpolation(x_vlf, fft_freq_half, np.abs(FFT_TOTAL))
+y_lf = manual_interpolation(x_lf, fft_freq_half, np.abs(FFT_TOTAL))
+y_hf = manual_interpolation(x_hf, fft_freq_half, np.abs(FFT_TOTAL))
 
 
 with st.sidebar:
@@ -936,6 +957,51 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_avg)
+                fig = go.Figure()
+
+                # Fill between VLF band
+                fig.add_trace(go.Scatter(
+                    x=x_vlf,
+                    y=y_vlf,
+                    fill='tozeroy',
+                    fillcolor='rgba(166, 81, 216, 0.2)',
+                    line=dict(color='rgba(166, 81, 216, 0.5)'),
+                    name='VLF'
+                ))
+                
+                # Fill between LF band
+                fig.add_trace(go.Scatter(
+                    x=x_lf,
+                    y=y_lf,
+                    fill='tozeroy',
+                    fillcolor='rgba(81, 166, 216, 0.2)',
+                    line=dict(color='rgba(81, 166, 216, 0.5)'),
+                    name='LF'
+                ))
+                
+                # Fill between HF band
+                fig.add_trace(go.Scatter(
+                    x=x_hf,
+                    y=y_hf,
+                    fill='tozeroy',
+                    fillcolor='rgba(216, 166, 81, 0.2)',
+                    line=dict(color='rgba(216, 166, 81, 0.5)'),
+                    name='HF'
+                ))
+                
+                # Add titles and labels
+                fig.update_layout(
+                    title="FFT Spectrum (Welch's periodogram)",
+                    xaxis_title="Frequency (Hz)",
+                    yaxis_title="Density",
+                    xaxis=dict(range=[0, 0.5]),
+                    yaxis=dict(range=[0, max(np.abs(FFT_TOTAL))]),
+                    legend=dict(x=0.8, y=0.95)
+                )
+                
+                st.plotly_chart(fig)
+
+
 
 
 
