@@ -1081,6 +1081,88 @@ if selected == "Frekuensi Domain":
                 )
                 
                 st.plotly_chart(fig)
+                def determine_category(LF_norm, HF_norm, LF_HF):
+                    if LF_norm < 0.2 and HF_norm < 0.2:
+                        return 1  # Low - Low
+                    elif LF_norm >= 0.2 and LF_norm <= 0.6 and HF_norm < 0.2:
+                        return 2  # Normal - Low
+                    elif LF_norm > 0.6 and HF_norm < 0.2:
+                        return 3  # High - Low
+                    elif LF_norm < 0.2 and HF_norm >= 0.2 and HF_norm <= 0.6:
+                        return 4  # Low - Normal
+                    elif LF_norm >= 0.2 and LF_norm <= 0.6 and HF_norm >= 0.2 and HF_norm <= 0.6:
+                        return 5  # Normal - Normal
+                    elif LF_norm > 0.6 and HF_norm >= 0.2 and HF_norm <= 0.6:
+                        return 6  # High - Normal
+                    elif LF_norm < 0.2 and HF_norm > 0.6:
+                        return 7  # Low - High
+                    elif LF_norm >= 0.2 and LF_norm <= 0.6 and HF_norm > 0.6:
+                        return 8  # Normal - High
+                    elif LF_norm > 0.6 and HF_norm > 0.6:
+                        return 9  # High - High
+                    else:
+                        return 0  # Undefined
+                
+                
+                st.title("Autonomic Balance Diagram")
+                
+                category = determine_category(LF_norm, HF_norm, LF_HF)
+                st.write("Category:", category)
+                
+                
+                data = [
+                    [7, 8, 9],
+                    [4, 5, 6],
+                    [1, 2, 3]
+                 ]
+                
+                coordinates = {
+                    1: (2, 0),
+                    2: (2, 1),
+                    3: (2, 2),
+                    4: (1, 0),
+                    5: (1, 1),
+                    6: (1, 2),
+                    7: (0, 0),
+                    8: (0, 1),
+                    9: (0, 2)
+                  }
+        # Create heatmap with Plotly Express
+                fig = px.imshow(data, labels=dict(x="Sympathetic Level", y="Parasympathetic Level"), x=["Low", "Normal", "High"], y=["High", "Normal", "Low"])
+        
+        # Mark category on the heatmap
+                coord = coordinates.get(category, None)
+                if coord:
+                     fig.add_shape(
+                         type="circle",
+                         xref="x",
+                         yref="y",
+                         x0=coord[1],
+                         y0=coord[0],
+                         x1=coord[1] + 0.5,  
+                         y1=coord[0] + 0.5,  
+                        line_color="black"
+                    )
+        
+        
+        # Add annotations for numbers
+                annotations = []
+                for i, row in enumerate(data):
+                    for j, val in enumerate(row):
+                        annotations.append(dict(
+                        x=j, y=i, text=str(val), showarrow=False,
+                        font=dict(color="black", size=16)
+                        ))
+        
+                fig.update_layout(
+                title="Autonomic Balance Diagram",
+                annotations=annotations
+                )
+                fig.update_xaxes(ticks="outside", tickvals=[0, 1, 2])
+                fig.update_yaxes(ticks="outside", tickvals=[0, 1, 2])
+        
+        # Display heatmap in Streamlit
+                st.plotly_chart(fig)
 
 
 
