@@ -244,9 +244,9 @@ if selected == "DWT":
             j = 1
             
             # Calculations
-            a = -(round(2**j) + round(2**(j-1)) - 2)
+            a = -(round (2**j) + round (2**(j-1)) - 2 )
             st.write(f"a = {a}")
-            b2 = -(1 - round(2**(j2-1))) + 1
+            b=-(1- round(2**(j-1)))+1
             st.write(f"b  = {b}")
            
             
