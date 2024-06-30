@@ -206,40 +206,6 @@ w2fm_values = [w2fm[i, :] for i in range(5)]  # Equivalent to w2fm[1,n] to w2fm[
 s2fm_values = [s2fm[i, :] for i in range(5)]  # Equivalent to s2fm[1,n] to s2fm[5,n] in original code (0-based index)
 
 
-w2fb = np.zeros((6, len(ecg) + T5))
-
-
-n_list = list(range(len(ecg)))
-
-# Perform calculations
-for n in n_list:
-    for j in range(1, 6):
-        w2fb[1][n + T1] = 0
-        w2fb[2][n + T2] = 0
-        w2fb[3][n + T3] = 0
-        a = -(round(2**j) + round(2**(j - 1)) - 2)
-        b = -(1 - round(2**(j - 1)))
-        for k in range(a, b + 1):
-            index = n - (k + abs(a))
-            if 0 <= index < len(ecg):
-                w2fb[1][n + T1] += qj[1][k + abs(a)] * ecg[index]
-                w2fb[2][n + T2] += qj[2][k + abs(a)] * ecg[index]
-                w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
-                w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
-                w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
-
-# Create and display plots for each DWT level
-figs = []
-n = np.arange(1000)
-
-
-
-
-
-
-
-
-
 
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing","DWT"], default_index=0)
