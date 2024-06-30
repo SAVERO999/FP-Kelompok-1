@@ -900,6 +900,19 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_windowed)
+          if selected_optimizer == 'Windowing':
+                    # Plot FFT
+                fig_fft = go.Figure()
+                fig_fft.add_trace(
+                    go.Scatter(x=fft_freq_half, y=np.abs(fft_result_half), mode="lines", line=dict(color=colors[i]))
+                )
+                fig_fft.update_layout(
+                    title=f"FFT of TACHOGRAM (Subset {start_index}-{end_index-1})",
+                    xaxis_title="Frequency (Hz)",
+                    yaxis_title="Magnitude",
+                    showlegend=False
+                )
+                st.plotly_chart(fig_fft)
                 
 
 
