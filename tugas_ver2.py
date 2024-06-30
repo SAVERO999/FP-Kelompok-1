@@ -900,7 +900,7 @@ if selected == "Frekuensi Domain":
                     showlegend=False
                 )
                 st.plotly_chart(fig_windowed)
-          if selected_optimizer == 'Windowing':
+          if selected_optimizer == 'fft':
                     # Plot FFT
                 fig_fft = go.Figure()
                 fig_fft.add_trace(
