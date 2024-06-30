@@ -646,8 +646,18 @@ if selected == "QRS Detection":
                     hasil_QRS[i-(T4+1)] = 0
             # Plot with Plotly
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=ecg.index[0:1000], y=gradien3[0:1000], mode='lines', name='Gradien 3', line=dict(color='blue')))
-            fig.update_layout(title='Gradien 3', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
+            
+            # Add QRS detection trace
+            fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=hasil_QRS[0:1000], mode='lines', name='QRS Detection', line=dict(color='blue')))
+            
+            # Add ECG signal trace
+            fig.add_trace(go.Scatter(x=elapsed_time[0:1000], y=y[0:1000], mode='lines', name='ECG ', line=dict(color='red')))
+            
+            # Update layout
+            fig.update_layout(title='QRS Detection', xaxis_title='Time (s)', yaxis_title='Amplitude (V)', height=400, width=1500)
+            fig.update_layout(legend=dict(x=1, y=1, traceorder='normal', font=dict(size=12)))
+            
+            # Show the figure
             st.plotly_chart(fig)
 
     
