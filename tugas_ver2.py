@@ -84,7 +84,7 @@ if selected == "Signal Processing":
     st.plotly_chart(fig)
 
 if selected == "DWT":
-  selected = option_menu(None, ["Baseline", "Segmentation","Spektrum"], 
+  selected = option_menu(None, ["Filter Coeffs", "Segmentation","Spektrum"], 
   menu_icon="cast", default_index=0, orientation="horizontal")
     
   if selected == 'Filter Coeffs':
