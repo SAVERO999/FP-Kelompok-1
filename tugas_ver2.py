@@ -238,7 +238,13 @@ delay = T3
 N = len(ecg)
 for k in range(delay, N - delay):
     gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
-
+hasil_QRS = np.zeros(len(elapsed_time))
+for i in range(N):
+    if (gradien3[i] > 1.8):
+        hasil_QRS[i-(T4+1)] = 5
+    else:
+        hasil_QRS[i-(T4+1)] = 0
+        
 ptp = 0
 waktu = np.zeros(np.size(hasil_QRS))
 selisih = np.zeros(np.size(hasil_QRS))
