@@ -1217,6 +1217,48 @@ if selected == "Frekuensi Domain":
                 
                 st.write(f"Nilai Respiratory Rate: {MPF_multiplied} BPM")
 
+                
+                def manual_interpolation(x, xp, fp):
+                    return np.interp(x, xp, fp)
+                
+                # Define the HF frequency range
+                hf_range = (0.15, 0.4)
+                # Compute the FFT of the entire signal
+                fft_result = np.fft.fft(bpm_rr)
+                fft_freq = np.fft.fftfreq(len(bpm_rr), d=1/sampling_rate)
+                
+                half_point = len(fft_freq) // 2
+                fft_freq_half = fft_freq[:half_point]
+                fft_result_half = fft_result[:half_point]
+                
+                # Filter the frequency spectrum for the HF range
+                hf_spectrum = np.zeros_like(fft_result_half)
+                hf_indices = np.where((fft_freq_half >= hf_range[0]) & (fft_freq_half <= hf_range[1]))[0]
+                hf_spectrum[hf_indices] = fft_result_half[hf_indices]
+                
+                # Inverse FFT to get the time-domain signal
+                hf_signal = np.fft.ifft(hf_spectrum)
+                
+                # Create a time vector that extends to 200 seconds
+                time_vector = np.linspace(0, 200, num=len(hf_signal))
+                
+                # Plot the respiratory signal
+                fig_hf_signal = go.Figure()
+                fig_hf_signal.add_trace(go.Scatter(
+                    x=time_vector,
+                    y=np.real(hf_signal),
+                    mode='lines',
+                    name='HF Signal'
+                ))
+                
+                fig_hf_signal.update_layout(
+                    title="Respiratory Signal",
+                    xaxis_title="Time (s)",
+                    yaxis_title="Amplitude",
+                )
+                st.plotly_chart(fig_hf)
+            
+
               
 
               
