@@ -435,10 +435,7 @@ if selected == "DWT":
                 )
                 st.plotly_chart(fig)
             
-            # Generate some dummy data for demonstration
-            n_values = np.arange(100)
-            w2fm_values = [np.random.randn(100) for _ in range(5)]
-            s2fm_values = [np.random.randn(100) for _ in range(5)]
+
             
             # Create and show plots for w2fm series
             st.header('w2fm Series Plots')
