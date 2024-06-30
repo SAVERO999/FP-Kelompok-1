@@ -87,7 +87,8 @@ b=-(1- round(2**(j-1)))+1
 for k in range (a,b):
   k_list.append(k)
   qj[1][k+abs(a)] = -2 * ( dirac(k) - dirac(k+1) )
-    
+
+
 k_list = []
 j= 2
 a = -(round (2**j) + round (2**(j-1)) - 2 )
