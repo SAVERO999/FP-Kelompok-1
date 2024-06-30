@@ -838,7 +838,7 @@ if selected == "Frekuensi Domain":
                     yaxis_title="BPM",
                     showlegend=False
                 )
-                st.plotly_chart(fig_ori)
+                st.plotly_chart(fig_orig)
                 
 
 
