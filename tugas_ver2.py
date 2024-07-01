@@ -775,9 +775,9 @@ if selected == "QRS Detection":
             T4 = round(2**(4-1)) - 1
             for i in range(N):
                 if (gradien3[i] > 1.8):
-                    hasil_QRS[i-(T4+1)] = 5
+                    hasil_QRS[i-(T3+5)] = 5
                 else:
-                    hasil_QRS[i-(T4+1)] = 0
+                    hasil_QRS[i-(T3+5)] = 0
             fig = go.Figure()
             
             # Add QRS detection trace
