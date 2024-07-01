@@ -620,6 +620,7 @@ if selected == "DWT":
                 create_plot(n_values, w2fm_values[i], i, 'w2fm')
        if selected_optimizer == 's2fm':
             # Function to create and show a plot
+            # Function to create and show a plot
             ecg=y
             
             min_n = 0 * fs
@@ -659,10 +660,15 @@ if selected == "DWT":
                     template='plotly_dark'
                 )
                 st.plotly_chart(fig)
-          # Create and show plots for s2fm series
-                st.header('s2fm Series Plots')
-                for i in range(5):
-                    create_plot(n_values, s2fm_values[i], i, 's2fm')
+            
+
+            
+
+            
+            # Create and show plots for s2fm series
+            st.header('w2fm Series Plots')
+            for i in range(5):
+                create_plot(n_values, s2fm_values[i], i, 's2fm')
        if selected_optimizer == 'gabungan':  
 
             def process_ecg(min_n, max_n, ecg, g, h):
