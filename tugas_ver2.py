@@ -880,8 +880,8 @@ if selected == "Frekuensi Domain":
           selected_optimizer = st.selectbox('Segmentation', optimizer_options)
           if selected_optimizer == 'Tachogram':  
                 def fourier_transform(signal):
-                N = len(signal)
-                fft_result = np.zeros(N, dtype=complex)
+                 N = len(signal)
+                 fft_result = np.zeros(N, dtype=complex)
                 for k in range(N):
                     for n in range(N):
                         fft_result[k] += signal[n] * np.exp(-2j * np.pi * k * n / N)
