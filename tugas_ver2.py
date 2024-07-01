@@ -1027,7 +1027,7 @@ if selected == "Frekuensi Domain":
                         yaxis_title="Magnitude",
                         showlegend=False
                     )
-                    fig_fft.show()
+                    st.plotly_chart(fig_fft)
         if selected == "Spektrum":
                 min_length = min(len(fft_result) for fft_result in fft_results_dict.values())
 
