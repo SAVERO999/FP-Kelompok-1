@@ -666,7 +666,7 @@ if selected == "DWT":
 
             
             # Create and show plots for s2fm series
-            st.header('w2fm Series Plots')
+            st.header('s2fm Series Plots')
             for i in range(5):
                 create_plot(n_values, s2fm_values[i], i, 's2fm')
        if selected_optimizer == 'gabungan':  
