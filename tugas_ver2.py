@@ -662,7 +662,7 @@ if selected == "DWT":
           # Create and show plots for s2fm series
                 st.header('s2fm Series Plots')
                 for i in range(5):
-                    create_plot(n_values, s2fm_values[i], i, 'w2fm')
+                    create_plot(n_values, s2fm_values[i], i, 's2fm')
        if selected_optimizer == 'gabungan':  
 
             def process_ecg(min_n, max_n, ecg, g, h):
@@ -706,9 +706,7 @@ if selected == "DWT":
             for i in range(5):
                 create_combined_plot(n_values, w2fm_values[i], s2fm_values[i], i)
             # Create and show plots for s2fm series
-            st.header('s2fm Series Plots')
-            for i in range(5):
-                create_plot(n_values, s2fm_values[i], i, 's2fm')
+  
    if sub_selected  == 'Filter Bank':
             T1= round (2**(1-1))-1
             T2 = round(2** (2-1)) - 1
