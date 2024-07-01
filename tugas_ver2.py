@@ -885,7 +885,7 @@ if selected == "Frekuensi Domain":
                 for k in range(N):
                     for n in range(N):
                         fft_result[k] += signal[n] * np.exp(-2j * np.pi * k * n / N)
-                return fft_result
+                        return fft_result
                 
                 def calculate_frequency(N, sampling_rate):
                     return np.arange(N) * sampling_rate / N
